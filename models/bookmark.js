@@ -13,6 +13,10 @@ module.exports = function (sequelize, DataTypes) {
         comment: {
             type: DataTypes.TEXT,
             allowNull: true
+        },
+        color: {
+            type: DataTypes.ENUM,
+            values: ['white', 'black', 'red', 'blue', 'yellow', 'green', 'orange', 'purple', 'pink']
         }
     });
 

@@ -4,7 +4,14 @@ module.exports = function (sequelize, DataTypes) {
     const Collection = sequelize.define("Collection", {
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                len: [2]
+            }
+        },
+        color: {
+            type: DataTypes.ENUM,
+            values: ['white', 'black', 'red', 'blue', 'yellow', 'green', 'orange', 'purple', 'pink']
         }
     });
 
