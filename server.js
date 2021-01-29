@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const express = require('express');
+const session = require('express-session');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -12,6 +13,15 @@ const db = require('./models');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000*60*60*2 // 2 hours
+    }
+}))
 
 app.use(express.static(__dirname + "/public"));
 app.use("/assets/d3", express.static(__dirname + "/node_modules/d3/dist"));
