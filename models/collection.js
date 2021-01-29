@@ -11,6 +11,8 @@ module.exports = function (sequelize, DataTypes) {
     Collection.associate = function(models) {
         Collection.belongsTo(models.User);
         Collection.belongsToMany(models.Bookmark, {through: 'bookmark_collections'});
+        Collection.hasMany(Collection, {foreignKey: 'ParentCollection'});
+
     }
 
     return Collection;

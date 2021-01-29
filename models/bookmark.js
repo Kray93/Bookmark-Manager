@@ -19,7 +19,7 @@ module.exports = function (sequelize, DataTypes) {
     Bookmark.associate = function(models) {
         Bookmark.belongsTo(models.User);
         Bookmark.belongsToMany(models.Tag, { through: 'bookmark_tags' });
-        Bookmark.belongsToMany(models.Collection, {through: 'bookmark_collections'});
+        Bookmark.belongsToMany(models.Collection, { through: 'bookmark_collections' });
     }
 
     return Bookmark;
