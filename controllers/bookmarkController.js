@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 
-// Get bookmarks by collection
+// Get bookmarks by various parameters
 router.get("/", function(request, response) {
     // Check if logged in
     if (!request.session.user) {
@@ -10,72 +10,49 @@ router.get("/", function(request, response) {
         return;
     }
 
+    if (request.body.id) {
+        db.Bookmark.findOne({
+            where: {
+                id: request.body.id
+            }
+        }).then( (result) => {
+            response.json(result);
+        }).catch( (err) => {
+            response.status(500).json(err);
+        });
+        return;
+    }
+
+    //Querying for bookmark by other params
+    const queryParams = {
+        UserId: request.session.user.id
+    };
+
+    // -- by color
+    if (request.body.color) {
+        queryParams.color = request.body.color;
+    }
+
+    const includeParams = [];
+    // -- by collection
     if (request.body.collection) {
-        db.Bookmark.findAll({
-            where: {
-                UserId: request.session.user.id
-            },
-            include: [
-                {
-                    model: db.Collection,
-                    where: {
-                        id: request.body.collection
-                    }, 
-                    through: {
-                        attributes: []
-                    },
+        includeParams.push(
+            {
+                model: db.Collection,
+                where: {
+                    id: request.body.collection
+                },
+                through: {
                     attributes: []
-                }
-            ],
-            attributes: [
-                'id', 'name', 'url', 'color'
-            ]
-        }).then((result) => {
-            response.json(result)
-        }).catch((err) => {
-            response.status(500).json(err);
-        });
-    } else {
-        db.Bookmark.findAll({
-            where: {
-                UserId: request.session.user.id
-            },
-            attributes: [
-                'id', 'name', 'url', 'color'
-            ]
-        }).then((result) => {
-            response.json(result)
-        }).catch((err) => {
-            response.status(500).json(err);
-        });
+                },
+                attributes: []
+            }
+        );
     }
 
-});
-
-// Get uncategorized bookmarks
-router.get("/", function (request, response) {
-    // Check if logged in
-    if (!request.session.user) {
-        response.status(401).send("Not logged in");
-        return;
-    }
-
-
-});
-
-// Get bookmarks by tag
-router.get("/", function (request, response) {
-    // Check if logged in
-    if (!request.session.user) {
-        response.status(401).send("Not logged in");
-        return;
-    }
-
-    db.Bookmark.findAll({
-        where: {
-            UserId: request.session.user.id
-        },
-        include: [
+    // -- by tag
+    if (request.body.tag) {
+        includeParams.push(
             {
                 model: db.Tag,
                 where: {
@@ -86,55 +63,21 @@ router.get("/", function (request, response) {
                 },
                 attributes: []
             }
-        ],
+        );
+    }
+
+    db.Bookmark.findAll({
+        where: queryParams,
+        include: includeParams,
         attributes: [
             'id', 'name', 'url', 'color'
         ]
-    }).then((result) => {
-        response.json(result)
-    }).catch((err) => {
+    }).then( (result) => {
+        response.json(result);
+    }).catch( (err) => {
         response.status(500).json(err);
     });
-});
 
-// Get bookmarks by color
-router.get("/", function (request, response) {
-    // Check if logged in
-    if (!request.session.user) {
-        response.status(401).send("Not logged in");
-        return;
-    }
-
-    db.Bookmark.findAll({
-        where: {
-            UserId: request.session.user.id,
-            color: request.body.color
-        }
-    }).then((result) => {
-        response.json(result)
-    }).catch((err) => {
-        response.status(500).json(err);
-    });
-});
-
-// Get single bookmark
-router.get("/", function (request, response) {
-    // Check if logged in
-    if (!request.session.user) {
-        response.status(401).send("Not logged in");
-        return;
-    }
-
-    db.Bookmark.findAll({
-        where: {
-            UserId: request.session.user.id,
-            id: request.body.id
-        }
-    }).then((result) => {
-        response.json(result)
-    }).catch((err) => {
-        response.status(500).json(err);
-    });
 });
 
 // Create a new bookmark
