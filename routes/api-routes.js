@@ -21,8 +21,8 @@ module.exports = function (app) {
         });
     });
 
-    
 
+    // Test; directly insert a collection
     app.post("/api/seed/collection", function(request, response) {
 
         db.Collection.create({
@@ -33,6 +33,7 @@ module.exports = function (app) {
         });
     });
 
+    // Test; directly insert a bookmark
     app.post("/api/seed/bookmark", async function(request, response) {
         const newBookmark = await db.Bookmark.create({
             name: request.query.name,
@@ -50,6 +51,7 @@ module.exports = function (app) {
         });
     });
 
+    // Test; directly pull bookmarks in a collection
     app.get("/api/getBookmarksByCollection", function(request, response) {
         db.Bookmark.findAll({
             where: {
@@ -176,7 +178,30 @@ module.exports = function (app) {
 // });
 
 
-// get all of a bookmark's tags
+// Get all of a bookmark's tags
+// db.Tag.findAll({
+//     where: {
+//         UserId: request.query.user
+//     }, 
+//     include: [
+//         {
+//             model: db.User
+//         }, {
+//             model: db.Bookmark,
+//             where: {
+//                 id: request.query.bookmark
+//             },
+//             attributes: [
+//                 'name'
+//             ],
+//             through: {
+//                 attributes: []
+//             }
+//         }
+//     ]
+// }).then(function(result) {
+//     response.json(result);
+// })
 
 // get all collections that a bookmark belongs to < --- ????
 

@@ -1,11 +1,6 @@
 {
   "development": {
-    "username": "newuser",
-    "password": "G1g@sequelpass",
-    "database": "bookmark_mngr_db",
-    "host": "192.168.1.24",
-    "dialect": "mysql",
-    "port": 3306
+    "use_env_variable": "DATABASE_URL"
   },
   "test": {
     "username": "root",
