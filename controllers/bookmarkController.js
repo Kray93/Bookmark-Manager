@@ -10,30 +10,46 @@ router.get("/", function(request, response) {
         return;
     }
 
-    db.Bookmark.findAll({
-        where: {
-            UserId: request.session.user.id
-        },
-        include: [
-            {
-                model: db.Collection,
-                where: {
-                    id: request.body.collection
-                }, 
-                through: {
+    if (request.body.collection) {
+        db.Bookmark.findAll({
+            where: {
+                UserId: request.session.user.id
+            },
+            include: [
+                {
+                    model: db.Collection,
+                    where: {
+                        id: request.body.collection
+                    }, 
+                    through: {
+                        attributes: []
+                    },
                     attributes: []
-                },
-                attributes: []
-            }
-        ],
-        attributes: [
-            'id', 'name', 'url', 'color'
-        ]
-    }).then((result) => {
-        response.json(result)
-    }).catch((err) => {
-        response.status(500).json(err);
-    });
+                }
+            ],
+            attributes: [
+                'id', 'name', 'url', 'color'
+            ]
+        }).then((result) => {
+            response.json(result)
+        }).catch((err) => {
+            response.status(500).json(err);
+        });
+    } else {
+        db.Bookmark.findAll({
+            where: {
+                UserId: request.session.user.id
+            },
+            attributes: [
+                'id', 'name', 'url', 'color'
+            ]
+        }).then((result) => {
+            response.json(result)
+        }).catch((err) => {
+            response.status(500).json(err);
+        });
+    }
+
 });
 
 // Get uncategorized bookmarks
@@ -121,6 +137,7 @@ router.get("/", function (request, response) {
     });
 });
 
+// Create a new bookmark
 router.post("/", function(request, response) {
     // Check if logged in
     if (!request.session.user) {
@@ -132,12 +149,24 @@ router.post("/", function(request, response) {
         name: request.body.name,
         url: request.body.url,
         comment: request.body.comment,
-        color: request.body.color
+        color: request.body.color,
+        UserId: request.session.user.id
     }).then( (result) => {
-        response.json(result);
+        if (request.body.collection) {
+            db.sequelize.models.bookmark_collections.create({
+                BookmarkId: result.dataValues.id,
+                CollectionId: request.body.collection
+            }).then( (result2) => {
+                response.json([result, result2]);
+            }).catch( (err) => {
+                response.status(500).json(err);
+            });
+        }
     }).catch( (err) => {
         response.status(500).json(err);
     });
+
+    
 });
 
 // Edit a bookmark's name
@@ -241,6 +270,30 @@ router.put("/color", function(request, response) {
 });
 
 // Move bookmark to a different collection
+router.put("/collection", async function(request, response) {
+    // Check if logged in
+    if (!request.session.user) {
+        response.status(401).send("Not logged in");
+        return;
+    }
+
+    if (request.body.deleteFromOriginalCollection) {
+        const delResult = await db.sequelize.models.bookmark_collections.destroy({
+            where: {
+                BookmarkId: request.body.id,
+                CollectionId: request.body.originalCollection
+            }
+        });
+        response.json(delResult);
+    }
+
+    db.sequelize.models.bookmark_collections.create({
+        BookmarkId: request.body.id,
+        CollectionId: request.body.newCollection
+    }).then(function (result) {
+        response.json(result);
+    });
+});
 
 /*
 get uncategorized bookmarks
