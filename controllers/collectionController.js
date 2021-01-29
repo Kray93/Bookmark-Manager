@@ -104,8 +104,29 @@ router.put("/parent", function(request, response) {
     });
 });
 
+// Change a collection's color
+router.put("/color", function(request, response) {
+    // Check if logged in
+    if (!request.session.user) {
+        response.status(401).send("Not logged in");
+        return;
+    }
+
+    db.Collection.update({
+        color: request.query.newColor
+    }, {
+        where: {
+            id: request.query.collection
+        }
+    }).then( (result) => {
+        response.json(result.affectedRows);
+    }).catch((err) => {
+        response.status(500).json(err);
+    });
+});
+
 // Delete a collection
-router.delete("/", function(request, response) {
+router.delete("/:id", function(request, response) {
     // Check if logged in
     if (!request.session.user) {
         response.status(401).send("Not logged in");
@@ -114,7 +135,7 @@ router.delete("/", function(request, response) {
 
     db.Collection.destroy({
         where: {
-            id: request.query.id
+            id: request.params.id
         }
     }).then( (result) => {
         response.json(result);

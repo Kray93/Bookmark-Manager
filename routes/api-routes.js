@@ -15,7 +15,8 @@ module.exports = function (app) {
 
     app.post("/api/seed/user", function (request, response) {
         db.User.create({
-            username: request.query.username
+            username: request.query.username,
+            password: request.query.password
         }).then(function(result) {
             response.json(result);
         });

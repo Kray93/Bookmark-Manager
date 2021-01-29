@@ -34,15 +34,22 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-const userController = require('./controllers/user-controller');
+// Controllers
+const userController = require('./controllers/userController');
 app.use(userController);
 
-const collectionController = require('./controllers/collection-controller');
-app.user(collectionController);
+const collectionController = require('./controllers/collectionController');
+app.use('/api/collections' + collectionController);
+
+const bookmarkController = require('./controllers/bookmarkController');
+app.use('/api/bookmarks' + bookmarkController);
+
+const tagController = require('./controllers/tagController');
+app.use('/api/tags' + tagController);
 
 require('./routes/api-routes')(app);
 
-db.sequelize.sync({ force: false }).then(function() {
+db.sequelize.sync({ force: true }).then(function() {
     app.listen(PORT, function() {
         console.log("App listening on PORT " + PORT);
     });
