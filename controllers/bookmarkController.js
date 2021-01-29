@@ -240,6 +240,7 @@ router.put("/color", function(request, response) {
     });
 });
 
+// Move bookmark to a different collection
 
 /*
 get uncategorized bookmarks

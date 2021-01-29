@@ -4,11 +4,18 @@ module.exports = function (sequelize, DataTypes) {
     const Bookmark = sequelize.define("Bookmark", {
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true,
+            validate: {
+                len: [1]
+            }
         },
         url: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isUrl: true 
+            }
         },
         comment: {
             type: DataTypes.TEXT,
@@ -16,7 +23,8 @@ module.exports = function (sequelize, DataTypes) {
         },
         color: {
             type: DataTypes.ENUM,
-            values: ['white', 'black', 'red', 'blue', 'yellow', 'green', 'orange', 'purple', 'pink']
+            values: ['white', 'black', 'red', 'blue', 'yellow', 'green', 'orange', 'purple', 'pink'],
+            allowNull: true
         }
     });
 
