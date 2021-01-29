@@ -34,6 +34,11 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+const userController = require('./controllers/user-controller');
+app.use(userController);
+
+const collectionController = require('./controllers/collection-controller');
+app.user(collectionController);
 
 require('./routes/api-routes')(app);
 
