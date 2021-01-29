@@ -50,10 +50,10 @@ router.post("/", function(request, response) {
     }
     
     db.Collection.create({
-        name: request.query.name,
-        color: request.query.color, // NULL if no color attached
+        name: request.body.name,
+        color: request.body.color, // NULL if no color attached
         UserId: request.session.user.id, // don't have express-session installed yet,
-        ParentCollection: request.query.parent // NULL if not a sub-collection
+        ParentCollection: request.body.parent // NULL if not a sub-collection
     }).then( (result) => {
         response.json(result);
     }).catch( (err) => {

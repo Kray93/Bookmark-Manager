@@ -134,7 +134,7 @@ router.post("/", function(request, response) {
         comment: request.body.comment,
         color: request.body.color
     }).then( (result) => {
-        response.json(result)
+        response.json(result);
     }).catch( (err) => {
         response.status(500).json(err);
     });

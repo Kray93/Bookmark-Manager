@@ -8,9 +8,9 @@ router.post("/signup", function(request, response) {
         username: request.body.username,
         password: request.body.password
     }).then( (result) => {
-        res.json(result);
+        response.json(result);
     }).catch( (err) => {
-        res.status(500).json(err);
+        response.status(500).json(err);
     })
 });
 
