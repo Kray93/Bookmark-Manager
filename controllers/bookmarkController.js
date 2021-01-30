@@ -233,7 +233,7 @@ router.put("/color", function(request, response) {
     });
 });
 
-// Move bookmark to a different collection
+// Move bookmark(s) to a different collection
 router.put("/collection", async function(request, response) {
     // Check if logged in
     if (!request.session.user) {
@@ -259,9 +259,23 @@ router.put("/collection", async function(request, response) {
     });
 });
 
-/*
-get uncategorized bookmarks
+// Delete single bookmark
+router.delete("/:id", function(request, response) {
+    // Check if logged in
+    if (!request.session.user) {
+        response.status(401).send("Not logged in");
+        return;
+    }
 
-*/
+    db.Bookmark.destroy({
+        where: {
+            id: request.params.id
+        }
+    }).then( (result) => {
+        response.json(result);
+    }).catch( (err) => {
+        response.status(500).json(err);
+    });
+});
 
 module.exports = router;
