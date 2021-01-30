@@ -77,7 +77,7 @@ router.put("/name", function(request, response) {
         name: request.body.newName
     }, {
         where: {
-            id: request.body.collection
+            id: request.body.id
         }
     }).then( (result) => {
         response.json(result.affectedRows);
