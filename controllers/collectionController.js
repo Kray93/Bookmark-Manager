@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 
-// Get all collections for the current user
+const { Op } = require('sequelize');
+
+// Get all collections that ARE NOT a sub-collection
 router.get("/", function(request, response) {
     // Check if logged in
     if (!request.session.user) {
@@ -12,7 +14,8 @@ router.get("/", function(request, response) {
 
     db.Collection.findAll({
         where: {
-            id: request.session.user.id // don't have express-session installed yet
+            id: request.session.user.id,
+            ParentCollection: { [ Op.is ]: NULL }
         }
     }).then (function (result) {
         response.json(result);
@@ -31,7 +34,7 @@ router.get("/subcollections", function(request, response) {
 
     db.Collection.findAll({
         where: {
-            ParentCollection: request.query.collectionId
+            ParentCollection: request.query.parent
         }
     }).then( (result) => {
         response.json(result);
@@ -52,7 +55,7 @@ router.post("/", function(request, response) {
     db.Collection.create({
         name: request.body.name,
         color: request.body.color, // NULL if no color attached
-        UserId: request.session.user.id, // don't have express-session installed yet,
+        UserId: request.session.user.id, 
         ParentCollection: request.body.parent // NULL if not a sub-collection
     }).then( (result) => {
         response.json(result);
@@ -71,10 +74,10 @@ router.put("/name", function(request, response) {
     }
 
     db.Collection.update({
-        name: request.query.newName
+        name: request.body.newName
     }, {
         where: {
-            id: request.query.collection
+            id: request.body.collection
         }
     }).then( (result) => {
         response.json(result.affectedRows);
@@ -92,10 +95,10 @@ router.put("/parent", function(request, response) {
     }
 
     db.Collection.update({
-        ParentCollection: request.query.newParentCollection
+        ParentCollection: request.body.newParentCollection
     }, {
         where: {
-            id: request.query.collection
+            id: { [ Op.in ]: request.body.ids }
         }
     }).then( (result) => {
         response.json(result.affectedRows);
@@ -113,10 +116,10 @@ router.put("/color", function(request, response) {
     }
 
     db.Collection.update({
-        color: request.query.newColor
+        color: request.body.newColor
     }, {
         where: {
-            id: request.query.collection
+            id: { [ Op.in ]: request.body.ids}
         }
     }).then( (result) => {
         response.json(result.affectedRows);
