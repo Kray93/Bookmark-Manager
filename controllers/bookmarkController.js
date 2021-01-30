@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 
+const {Op} = require('sequelize');
+const {QueryTypes} = require('sequelize');
+
 // Get bookmarks by various parameters
 router.get("/", function(request, response) {
     // Check if logged in
@@ -23,7 +26,7 @@ router.get("/", function(request, response) {
         return;
     }
 
-    //Querying for bookmark by other params
+    // Querying for bookmark by other params
     const queryParams = {
         UserId: request.session.user.id
     };
@@ -80,6 +83,25 @@ router.get("/", function(request, response) {
 
 });
 
+// Get all uncategorized bookmarks
+router.get("/uncategorized", async function(request, response) {
+    // Check if logged in
+    if (!request.session.user) {
+        response.status(401).send("Not logged in");
+        return;
+    }
+
+    db.sequelize.query(
+        'SELECT `id`, `UserId`, `name`, `url`, `color` FROM bookmarks ' +
+        'LEFT JOIN bookmark_collections ON bookmark_collections.BookmarkId = bookmarks.id ' + 
+        'WHERE bookmark_collections.BookmarkId IS NULL', { type: QueryTypes.SELECT })
+            .then( (result) => {
+                response.json(result);
+            }).catch( (err) => {
+                response.status(500).json(err);
+            });
+});
+
 // Create a new bookmark
 router.post("/", function(request, response) {
     // Check if logged in
@@ -109,7 +131,6 @@ router.post("/", function(request, response) {
         response.status(500).json(err);
     });
 
-    
 });
 
 // Edit a bookmark's name
