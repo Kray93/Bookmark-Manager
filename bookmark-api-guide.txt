@@ -27,7 +27,8 @@ CREATE A BOOKMARK
             name: <string>,
             url: <string, must be in URL format>,
             [comment: <string>],
-            [color: <color (see list of color ENUMs)>]
+            [color: <color (see list of color ENUMs)>],
+            [collection: <integer, ID to add new bookmark to a collection>]
         }
 
 EDIT A BOOKMARK'S NAME
@@ -67,7 +68,7 @@ EDIT A BOOKMARK'S COLOR
         "PUT"
     expected body parameters:
         {
-            id: <ARRAY of integers, IDs to change color for>
+            id: <ARRAY of integers, IDs to change color for. MUST BE AN ARRAY EVEN IF ONLY UPDATING ONE BOOKMARK>
             newColor: <color: <color (see list of color ENUMs)>>
         }
 

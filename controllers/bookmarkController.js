@@ -217,7 +217,7 @@ router.put("/color", function(request, response) {
     }
 
     db.Bookmark.update({
-        name: request.body.color
+        color: request.body.newColor
     }, {
         where: {
             id: { [ Op.in ]: request.body.id }
@@ -225,8 +225,9 @@ router.put("/color", function(request, response) {
     }).then((result) => {
         if (result.affectedRows === 0) {
             // send a status 
+            console.log("No rows affected");
         } else {
-            response.json(result.affectedRows);
+            response.json(result);
         }
     }).catch((err) => {
         response.status(500).json(err);
@@ -266,7 +267,7 @@ router.put("/collection", function(request, response) {
 
             db.sequelize.models.bookmark_collections.bulkCreate(
                 result.map( r => ({ BookmarkId: r.id, CollectionId: newCollection }) )
-            ).then( async (result2) => {
+            ).then( (result2) => {
                 const queryParams = {
                     CollectionId: request.body.originalCollection
                 };
