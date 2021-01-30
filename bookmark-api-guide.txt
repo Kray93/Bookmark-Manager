@@ -42,7 +42,7 @@ EDIT A BOOKMARK'S NAME
 
 EDIT A BOOKMARK'S URL
     route:
-        "/api/bookmarks/comment"
+        "/api/bookmarks/url"
     method:
         "PUT"
     expected body parameters:
