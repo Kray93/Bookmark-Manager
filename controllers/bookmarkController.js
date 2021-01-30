@@ -220,7 +220,7 @@ router.put("/color", function(request, response) {
         name: request.body.color
     }, {
         where: {
-            id: request.body.id
+            id: { [ Op.in ]: request.body.id }
         }
     }).then((result) => {
         if (result.affectedRows === 0) {
