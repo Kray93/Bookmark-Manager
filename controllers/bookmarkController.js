@@ -13,10 +13,10 @@ router.get("/", function(request, response) {
         return;
     }
 
-    if (request.body.id) {
+    if (request.query.id) {
         db.Bookmark.findOne({
             where: {
-                id: request.body.id
+                id: request.query.id
             }
         }).then( (result) => {
             response.json(result);
@@ -32,18 +32,18 @@ router.get("/", function(request, response) {
     };
 
     // -- by color
-    if (request.body.color) {
-        queryParams.color = request.body.color;
+    if (request.query.color) {
+        queryParams.color = request.query.color;
     }
 
     const includeParams = [];
     // -- by collection
-    if (request.body.collection) {
+    if (request.query.collection) {
         includeParams.push(
             {
                 model: db.Collection,
                 where: {
-                    id: request.body.collection
+                    id: request.query.collection
                 },
                 through: {
                     attributes: []
@@ -54,12 +54,12 @@ router.get("/", function(request, response) {
     }
 
     // -- by tag
-    if (request.body.tag) {
+    if (request.query.tag) {
         includeParams.push(
             {
                 model: db.Tag,
                 where: {
-                    id: request.body.tag
+                    id: request.query.tag
                 },
                 through: {
                     attributes: []

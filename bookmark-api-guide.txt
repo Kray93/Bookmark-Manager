@@ -1,17 +1,13 @@
 /* 
 RETRIEVE BOOKMARK(S) BY COLLECTION, TAG, AND/OR COLOR
-    route: 
-        "/api/bookmarks"
+    route (query parameters in square brackets are optional): 
+        "/api/bookmarks[?id=<integer***>][?collection=<integer>][?tag=<integer>][?color=<color name>]"
     method: 
         "GET"
-    expected body parameters (parameters in brackets are optional):
-        {
-            [id: <integer, ID of desired bookmark]***,
-            [collection: <integer, ID of collection>],
-            [tag: <integer, ID of tag>],
-            [color: <color (see list of color ENUMs)>]
-        }
-        *** - If the bookmark's ID is specified, then the other 3 parameters will not be used
+    expected body parameters:
+        NONE
+    
+    *** - If the bookmark's ID is specified, then the other 3 parameters will not be used
 
 RETRIEVE UNCATEGORIZED BOOKMARKS
     route: 

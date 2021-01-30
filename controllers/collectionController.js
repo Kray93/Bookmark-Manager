@@ -31,7 +31,7 @@ router.get("/subcollections", function(request, response) {
 
     db.Collection.findAll({
         where: {
-            ParentCollection: request.body.collectionId
+            ParentCollection: request.query.collectionId
         }
     }).then( (result) => {
         response.json(result);
