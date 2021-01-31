@@ -42,14 +42,6 @@ router.get("/readsessions", (request, response) => {
     response.json(request.session)
 });
 
-router.get("/secretclub", (request, response) => {
-    if (request.session.user) {
-        response.send(`welcome to the club, ${request.session.user.username}!`)
-    } else {
-        response.status(401).send("login first you knucklehead")
-    }
-});
-
 router.get('/logout', (request, response) => {
     request.session.destroy();
     response.redirect('/')
