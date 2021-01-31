@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../models');
-const bcrypt = require("bcrypt");
+const express   = require('express');
+const router    = express.Router();
+const db        = require('../models');
+const bcrypt    = require("bcrypt");
 
+// Sign up route (creates a new user)
 router.post("/signup", function(request, response) {
     db.User.create({
         username: request.body.username,
@@ -14,6 +15,7 @@ router.post("/signup", function(request, response) {
     })
 });
 
+// Log-in route (sets session user)
 router.post("/login", function(request, response) {
     db.User.findOne({
         where: {
@@ -38,10 +40,12 @@ router.post("/login", function(request, response) {
     });
 });
 
+// View all active sessions
 router.get("/readsessions", (request, response) => {
     response.json(request.session)
 });
 
+// Log-out, end session and send to home route
 router.get('/logout', (request, response) => {
     request.session.destroy();
     response.redirect('/')
