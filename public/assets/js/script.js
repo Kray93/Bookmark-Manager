@@ -260,5 +260,5 @@
 // });
 
 $(() => {
-    $('#menu').multilevelpushmenu();
+    $('#menu').multilevelpushmenu({ preventItemClick: false });
 });
