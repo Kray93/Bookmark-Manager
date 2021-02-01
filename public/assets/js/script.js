@@ -148,7 +148,7 @@ function start(tabs) {
       link.css({
         paddingLeft: radius * 1.2 + "px",
         //   link.style.fontSize = fontSize + "px";
-        fontSize: (fontSize = "px"),
+        fontSize: fontSize + "px",
         //   link.style.height = linkSize + "px";
         height: linkSize + "px",
         //   link.style.lineHeight = linkSize + "px";
