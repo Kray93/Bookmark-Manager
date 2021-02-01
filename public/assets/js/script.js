@@ -49,14 +49,14 @@
 function start(tabs) {
     const div = $("<div>");
     $(document.body).append(div);
-    var links = tabs.map((tab) => ({
+    const links = tabs.map((tab) => ({
         label: tab.name,
         bg: tab.color,
         id: tab.id,
     }));
-    var windowHeight = window.innerHeight;
+    let windowHeight = window.innerHeight;
     if (windowHeight === 0) windowHeight = 238;
-    var radius = windowHeight * 0.6, //sets the radius to react to the window
+    let radius = windowHeight * 0.6, //sets the radius to react to the window
         circle = $("<div>"),
         borderSize = radius * 0.021,
         totalArea = 48,
@@ -91,7 +91,7 @@ function start(tabs) {
         div.append(circle);
     }
     function addLinks() {
-        for (var i = 0, l = links.length; i < l; i++) {
+        for (let i = 0, l = links.length; i < l; i++) {
             //set data-id attr to links[i].id
             //   (link = document.createElement("a")),
             link = $("<a>");
@@ -140,8 +140,8 @@ function start(tabs) {
         }
     }
     function styleLinks() {
-        for (var i = 0, l = links.length; i < l; i++) {
-            var link = links[i].elem,
+        for (let i = 0, l = links.length; i < l; i++) {
+            const link = links[i].elem,
                 hover = links[i].hover,
                 deg = startPoint + i * increment;
             //   link.style.paddingLeft = radius * 1.2 + "px";
@@ -186,7 +186,7 @@ function start(tabs) {
         styleLinks();
     };
     function linkOver(e) {
-        var thisLink = $(e.target),
+        const thisLink = $(e.target),
             thisHover = $(e.target.nextSibling);
         // thisLink.style.paddingLeft = radius * 1.25 + "px";
         thisLink.css("paddingLeft", radius * 1.25 + "px");
@@ -196,7 +196,7 @@ function start(tabs) {
         $(document.body).css("backgroundColor", thisLink.data("color"));
     }
     function linkOut(e) {
-        var thisLink = $(e.target),
+        const thisLink = $(e.target),
             thisHover = $(e.target.nextSibling);
         // thisLink.style.paddingLeft = radius * 1.2 + "px";
         thisLink.css("paddingLeft", radius * 1.2 + "px");
