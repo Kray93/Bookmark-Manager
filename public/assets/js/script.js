@@ -419,3 +419,7 @@ function moveBM(newCollection, originalCollection, id, deleteFromOriginalCollect
 // window.addEventListener("load", () => {
 //   displayTabs(start);
 // });
+
+$(() => {
+    $('#menu').multilevelpushmenu({ preventItemClick: false });
+});

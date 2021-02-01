@@ -1,0 +1,12 @@
+<li>
+    <a href="#">{{name}}</a><i class="fa fa-edit" onclick="editCollection({{id}})"></i>
+    <h2>{{name}}</h2>
+    <ul>
+        {{#each collections}}
+        {{> menuPartial}}
+        {{/each}}
+        {{#each bookmarks}}
+        {{> menuBookmarkPartial}}
+        {{/each}}
+    </ul>
+</li>
