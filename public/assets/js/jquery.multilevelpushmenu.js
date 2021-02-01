@@ -221,7 +221,8 @@
 				$.each( $wrapper, function(){
 					var $levelHolder = $( "<div />" )
 					    .attr( { "class" : "levelHolderClass" + ( ( instance.settings.direction == 'rtl' ) ? " rtl" : " ltr" ), "data-level" : $wrapper.level, "style" : ( ( instance.settings.direction == 'rtl' ) ? "margin-right: " : "margin-left: " ) + ( ( $wrapper.level == 0 && !instance.settings.collapsed ) ? 0 : "-200%" ) } )
-					    .appendTo( $wrapper ),
+						.css({backgroundColor: $wrapper.data("color")})
+						.appendTo( $wrapper ),
 					    extWidth = ( isValidDim( instance.settings.menuWidth ) || ( isInt( instance.settings.menuWidth ) && instance.settings.menuWidth > 0 ) );
 					$levelHolder.bind( dragEventType ,  function(e){
 						holderSwipe( e, $levelHolder );
