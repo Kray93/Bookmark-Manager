@@ -118,13 +118,11 @@ router.post("/", function(request, response) {
         UserId: request.session.user.id
     }).then( (result) => {
         if (request.body.collection) {
-            db.sequelize.models.bookmark_collections.create({
-                BookmarkId: result.dataValues.id,
-                CollectionId: request.body.collection
-            }).then( (result2) => {
-                response.json([result, result2]);
-            }).catch( (err) => {
-                response.status(500).json(err);
+            result.addCollection(request.body.collection);
+            response.json({
+                linkedToCollection: true,
+                bookmark: result.dataValues.id,
+                collection: request.body.collection
             });
         }
     }).catch( (err) => {
@@ -243,13 +241,36 @@ router.put("/collection", function(request, response) {
     }
 
     if (request.body.id) {
-        db.sequelize.models.bookmark_collections.create({
-            BookmarkId: request.body.id,
-            CollectionId: request.body.newCollection
-        }).then(function (result) {
-            response.json(result);
-        }).catch( (err) => {
-            response.status(500).json(err);
+        if (request.body.deleteFromOriginalCollection === true) {
+            if (!request.body.originalCollection) {
+                response.status(301).json("In order to delete from original collection the original collection ID must be provided.");
+                // ^CLARIFY STATUS CODE
+            }
+        }
+
+        db.Bookmark.findOne({
+            where: {
+                id: request.body.id
+            }
+        }).then( (result) => {
+
+            if (request.body.deleteFromOriginalCollection) {
+                if (result.hasCollection(request.body.originalCollection)) {
+                    result.removeCollection(request.body.originalCollection);
+                }
+            }
+
+            if (result.hasCollection(request.body.newCollection)) {
+                response.json("Already linked.");
+                return;
+            }
+
+            result.addCollection(request.body.newCollection);
+            response.json({
+                linkedBookmarkToCollection: true,
+                bookmark: result.dataValues.id,
+                collection: request.body.newCollection
+            });
         });
     } else {
         const newCollection = request.body.newCollection;
@@ -278,6 +299,7 @@ router.put("/collection", function(request, response) {
                 }
 
                 if (request.body.deleteFromOriginalCollection) {
+                    result.removeCollection([])
                     db.sequelize.models.bookmark_collections.destroy({
                         where: queryParams
                     }).then ( (deleteResult) => {
