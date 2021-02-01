@@ -1,8 +1,6 @@
 // TODO: document.ready(function())
 // each will have an ajax call with .then and callback
 
-const { data } = require("jquery");
-
 //Create Functions=========================================
 // TODO: function to create new account
 // function createNewAcc()
