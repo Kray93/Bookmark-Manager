@@ -228,7 +228,7 @@
 						holderSwipe( e, $levelHolder );
 					});
 					var $title = $wrapper.children( 'h2' );
-					$title.attr( { "style" : "text-align: " + ( ( instance.settings.direction == 'rtl' ) ? "right" : "left" ) } );
+					$title.css( { textAlign: ( instance.settings.direction == 'rtl' ) ? "right" : "left" } );
 					$title.appendTo( $levelHolder );
 					var $titleIcon = $title.children( 'i' );
 					$titleIcon.addClass( ( ( instance.settings.direction == 'rtl' ) ? "floatLeft" : "floatRight" ) + " cursorPointer" );
@@ -240,7 +240,7 @@
 					$itemGroup.appendTo( $levelHolder );
 					$.each($itemGroup.children( 'li' ), function(){
 						var $item = $( this );
-						$item.attr( { "style" : "text-align: " + ( ( instance.settings.direction == 'rtl' ) ? "right" : "left" ) } );
+						$item.css({ textAlign: instance.settings.direction == 'rtl' ? "right" : "left"  } );
 						var $itemAnchor = $item.children( 'a' );
 						var $itemIcon = $itemAnchor.children( 'i' );
 						$itemIcon.addClass( ( ( instance.settings.direction == 'rtl' ) ? "floatLeft" : "floatRight" ) );
