@@ -15,7 +15,8 @@ module.exports = function (app) {
 
     app.post("/api/seed/user", function (request, response) {
         db.User.create({
-            username: request.query.username
+            username: request.body.username,
+            password: request.body.password
         }).then(function(result) {
             response.json(result);
         });
@@ -26,8 +27,8 @@ module.exports = function (app) {
     app.post("/api/seed/collection", function(request, response) {
 
         db.Collection.create({
-            name: request.query.name,
-            UserId: request.query.user
+            name: request.body.name,
+            UserId: request.body.user
         }).then(function (result) {
             response.json(result);
         });
@@ -36,16 +37,16 @@ module.exports = function (app) {
     // Test; directly insert a bookmark
     app.post("/api/seed/bookmark", async function(request, response) {
         const newBookmark = await db.Bookmark.create({
-            name: request.query.name,
-            url: request.query.url,
-            UserId: request.query.user
+            name: request.body.name,
+            url: request.body.url,
+            UserId: request.body.user
         });
 
         console.log(db.sequelize.models);
 
         db.sequelize.models.bookmark_collections.create({
             BookmarkId: newBookmark.dataValues.id,
-            CollectionId: request.query.collection
+            CollectionId: request.body.collection
         }).then(function(result) {
             response.json(result);
         });
@@ -55,14 +56,14 @@ module.exports = function (app) {
     app.get("/api/getBookmarksByCollection", function(request, response) {
         db.Bookmark.findAll({
             where: {
-                UserId: request.query.user
+                UserId: request.body.user
             },
             include: [{
                 model: db.User
             }, {
                 model: db.Collection,
                 where: {
-                    id: request.query.collection
+                    id: request.body.collection
                 },
                 attributes: [
                     'name',
@@ -80,7 +81,7 @@ module.exports = function (app) {
     app.get("/api/getBookmarksByTag", function (request, response) {
         db.Bookmark.findAll({
             where: {
-                UserId: request.query.user
+                UserId: request.body.user
             },
             include: [
                 {
@@ -88,7 +89,7 @@ module.exports = function (app) {
                 }, {
                     model: db.Tag,
                     where: {
-                        id: request.query.tag
+                        id: request.body.tag
                     },
                     through: {
                         attributes: []
@@ -130,14 +131,14 @@ module.exports = function (app) {
 // /* Get all bookmarks in a user's collection */
 // db.Bookmark.findAll({
 //     where: {
-//         UserId: request.query.user
+//         UserId: request.body.user
 //     },
 //     include: [{
 //         model: db.User
 //     }, {
 //         model: db.Collection,
 //         where: {
-//             id: request.query.collection
+//             id: request.body.collection
 //         },
 //         attributes: [
 //             'name',
@@ -154,7 +155,7 @@ module.exports = function (app) {
 // Get all of a user's bookmarks with a specified tag
 // db.Bookmark.findAll({
 //     where: {
-//         UserId: request.query.user
+//         UserId: request.body.user
 //     },
 //     include: [
 //         {
@@ -162,7 +163,7 @@ module.exports = function (app) {
 //         }, {
 //             model: db.Tag,
 //             where: {
-//                 id: request.query.tag
+//                 id: request.body.tag
 //             },
 //             through: {
 //                 attributes: []
@@ -181,7 +182,7 @@ module.exports = function (app) {
 // Get all of a bookmark's tags
 // db.Tag.findAll({
 //     where: {
-//         UserId: request.query.user
+//         UserId: request.body.user
 //     }, 
 //     include: [
 //         {
@@ -189,7 +190,7 @@ module.exports = function (app) {
 //         }, {
 //             model: db.Bookmark,
 //             where: {
-//                 id: request.query.bookmark
+//                 id: request.body.bookmark
 //             },
 //             attributes: [
 //                 'name'
@@ -209,16 +210,16 @@ module.exports = function (app) {
 
 // // Add new user
 // db.User.create({
-//     username: request.query.username
+//     username: request.body.username
 // }).then(function (result) {
 //     response.json(result);
 // })
 
 // // Add a new collection to a user
 // db.Collection.create({
-//     name: request.query.name,
-//     UserId: request.query.user,
-//     ParentCollection: request.query.parent // NULL if not a sub-collection
+//     name: request.body.name,
+//     UserId: request.body.user,
+//     ParentCollection: request.body.parent // NULL if not a sub-collection
 // }).then(function (result) {
 //     response.json(result);
 // })
@@ -228,14 +229,14 @@ module.exports = function (app) {
 
 // // Add a new bookmark to a collection
 // const newBookmark = await db.Bookmark.create({
-//     name: request.query.name,
-//     url: request.query.url,
-//     UserId: request.query.user
+//     name: request.body.name,
+//     url: request.body.url,
+//     UserId: request.body.user
 // });
 
 // db.sequelize.models.bookmark_collections.create({
 //     BookmarkId: newBookmark.dataValues.id,
-//     CollectionId: request.query.collection
+//     CollectionId: request.body.collection
 // }).then(function (result) {
 //     response.json(result);
 // });
@@ -243,19 +244,19 @@ module.exports = function (app) {
 // // Add an existing bookmark to a collection
 // db.sequelize.models.bookmark_collections.create({
 //     BookmarkId: newBookmark.dataValues.id,
-//     CollectionId: request.query.collection
+//     CollectionId: request.body.collection
 // }).then(function (result) {
 //     response.json(result);
 // });
 
 // // Add a new tag to an existing bookmark
 // const newTag = await db.Tag.create({
-//     name: request.query.name,
-//     UserId: request.query.user
+//     name: request.body.name,
+//     UserId: request.body.user
 // });
 
 // db.sequelize.models.bookmark_tags.create({
-//     BookmarkId: request.query.bookmark,
+//     BookmarkId: request.body.bookmark,
 //     TagId: newTag.dataValues.id
 // }).then(function(result) {
 //     response.json(result);
@@ -263,8 +264,8 @@ module.exports = function (app) {
 
 // // Add an existing tag to a bookmark
 // db.sequelize.models.bookmark_tags.create({
-//     BookmarkId: request.query.bookmark,
-//     TagId: request.query.tag
+//     BookmarkId: request.body.bookmark,
+//     TagId: request.body.tag
 // }).then(function(result) {
 //     response.json(result);
 // });
@@ -275,10 +276,10 @@ module.exports = function (app) {
 
 // // Edit collection name
 // db.Collection.update({
-//     name: request.query.name
+//     name: request.body.name
 // }, {
 //     where: {
-//         id: request.query.collection
+//         id: request.body.collection
 //     }
 // }).then(function (result) {
 //     response.json(result.affectedRows);
@@ -286,10 +287,10 @@ module.exports = function (app) {
 
 // // Edit parent collection(moving subcollection to new parent)
 // db.Collection.update({
-//     ParentCollection: request.query.newParentCollection
+//     ParentCollection: request.body.newParentCollection
 // }, {
 //     where: {
-//         id: request.query.collection
+//         id: request.body.collection
 //     }
 // }).then(function (result) {
 //     response.json(result.affectedRows);
@@ -297,10 +298,10 @@ module.exports = function (app) {
 
 // // Edit bookmark name
 // db.Bookmark.update({
-//     name: request.query.newName
+//     name: request.body.newName
 // }, {
 //     where: {
-//         id: request.query.bookmark
+//         id: request.body.bookmark
 //     }
 // }).then(function (result) {
 //     response.json(result.affectedRows);
@@ -308,10 +309,10 @@ module.exports = function (app) {
 
 // // Edit bookmark url
 // db.Bookmark.update({
-//     url: request.query.newURL
+//     url: request.body.newURL
 // }, {
 //     where: {
-//         id: request.query.bookmark
+//         id: request.body.bookmark
 //     }
 // }).then(function (result) {
 //     response.json(result.affectedRows);
@@ -320,10 +321,10 @@ module.exports = function (app) {
 
 // // Edit bookmark comment
 // db.Bookmark.update({
-//     comment: request.query.newComment
+//     comment: request.body.newComment
 // }, {
 //     where: {
-//         id: request.query.bookmark
+//         id: request.body.bookmark
 //     }
 // }).then(function (result) {
 //     response.json(result.affectedRows);

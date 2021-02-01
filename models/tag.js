@@ -4,7 +4,11 @@ module.exports = function (sequelize, DataTypes) {
     const Tag = sequelize.define("Tag", {
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true,
+            validate: {
+                len: [1]
+            }
         }
     });
 
