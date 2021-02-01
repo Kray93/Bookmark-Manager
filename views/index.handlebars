@@ -1,8 +1,20 @@
 {{!-- TODO: Menu, tabs, and BM's, Modals --}}
 
+<div id="menu">
+    <h2><i class="fa fa-reorder"></i>{{name}}</h2>
+    <ul>
+        {{#each collections}}
+        {{> menuPartial}}
+        {{/each}}
+        {{#each bookmarks}}
+        {{> menuBookmarkPartial}}
+        {{/each}}
+    </ul>
+</div>
+
 
 {{!-- Bookmark Modals --}}
-<div id="modal-holder">
+{{!-- <div id="modal-holder">
     {{#each bookmarks}}
     <div id="modal" class="modal">
         <div class="modal-content">
@@ -16,5 +28,4 @@
         </div>
     </div>
     {{/each}}
-</div>
-
+</div> --}}
