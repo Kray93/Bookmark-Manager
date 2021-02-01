@@ -112,7 +112,7 @@ function editBM(id) {
     $("input[name=bmurl]").val(bm.url);
     $("input[name=bmcolor]").val(bm.color);
     $("input[name=bmtags]").val(bm.tags);
-    $("#bmEditForm").on("submit", (event) => {
+    $("#edit-bookmark").on("submit", (event) => {
       event.preventDefault();
       const updatedBM = { id: bm.id };
       if (bm.name !== $("input[name=bookmark]").val()) {
@@ -136,7 +136,7 @@ function editBM(id) {
 // function that creates edit page for collections
 
 function editCollection(id) {
-  displayCollection({ id }, (collection) => {
+  displayCollect({ id }, (collection) => {
     $("input[name=collection]").val(collection.name);
     $("input[name=collectionurl]").val(collection.url);
     $("input[name=collectioncolor]").val(collection.color);
@@ -302,5 +302,19 @@ function deleteCollect() {
 // TODO: create next menu for those
 
 $(() => {
-  $("#menu").multilevelpushmenu({ preventItemClick: false });
+  $("#menu").multilevelpushmenu({ menuWidth: "20%", preventItemClick: false });
+
+  $(".edit").on("click", function (event) {
+    event.stopPropagation();
+    event.preventDefault();
+    const id = $(this).data("id");
+    switch ($(this).data("type")) {
+      case "collection":
+        editCollection(id);
+        break;
+      case "bookmark":
+        editBM(id);
+        break;
+    }
+  });
 });
