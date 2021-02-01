@@ -12,7 +12,7 @@ router.post("/signup", function(request, response) {
         response.json(result);
     }).catch( (err) => {
         response.status(500).json(err);
-    })
+    });
 });
 
 // Log-in route (sets session user)
@@ -34,7 +34,7 @@ router.post("/login", function(request, response) {
                 response.json(userData);
             } else {
                 request.session.destroy();
-                response.status(401).send("wrong password bro")
+                response.status(401).send("wrong password bro");
             }
         }
     });
