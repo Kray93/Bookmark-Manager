@@ -12,8 +12,9 @@ router.get("/", function (request, response) {
     }
     db.Tag.findAll({
         where: {
-            id: request.body.id
-        }
+            UserId: request.session.user.id
+        },
+        attributes: ['name']
     }).then(function (result) {
         response.json(result);
     }).catch((err) => {
@@ -22,22 +23,28 @@ router.get("/", function (request, response) {
 });
 
 // get all tags that are attached to a bookmark
-router.get("/", function (request, response) {
+router.get("/bookmark", function (request, response) {
     // Check if logged in
     if (!request.session.user) {
         response.status(401).send("Not logged in");
         return;
     }
+
     db.Tag.findAll({
         where: {
-            id: request.body.id,
+            UserId: request.session.user.id
         },
         include: [{
             model: db.Bookmark,
-            through: { attributes: [] },
-            attributes: ["color", "name", "url"]
+            where: {
+                id: request.query.bookmark
+            },
+            through: {
+                attributes: [] 
+            },
+            attributes: []
         }],
-        attributes: []
+        attributes: ['name']
     }).then(function (result) {
         response.json(result);
     }).catch((err) => {
@@ -53,61 +60,86 @@ router.post("/", function (request, response) {
         response.status(401).send("Not logged in");
         return;
     }
-    db.Tag.create({
-        name: request.query.name,
-        BookmarkId: request.query.bookmark,
-        UserId: request.query.user
-    }).then(function (result) {
-        response.json(result);
-    }).catch((err) => {
-        response.status(500).json(err);
-    });
-});
 
-// add an existing tag to an existing bookmark
-router.post("/", function (request, response) {
-    // Check if logged in
-    if (!request.session.user) {
-        response.status(401).send("Not logged in");
-        return;
+    // If passed a tag ID number, link specified tag to specified bookmark
+    if (request.body.tag) {
+        db.Tag.findOne({
+            where: {
+                id: request.body.tag
+            }
+        }).then( (checkResult) => {
+            if (checkResult.hasBookmark(request.body.bookmark)) {
+                response.json("Already linked.");
+            } else {
+                checkResult.addBookmark(request.body.bookmark);
+                response.json({
+                    linkSuccessful: true,
+                    tag: checkResult.dataValues.id,
+                    bookmark: request.body.bookmark
+                });
+            }
+        }).catch( (err) => {
+            response.status(500).json(err);
+        });
+    } 
+    // Else, create a new tag (with specified name) and attach it to specified bookmark
+    else {
+        // Check if there's already a tag with that name
+        db.Tag.findOne({
+            where: {
+                name: request.body.name
+            }
+        }).then( (checkResult) => {
+            // If tag with specified name already exists, link it to specified bookmark
+            if (checkResult) {
+                if (checkResult.hasBookmark(request.body.bookmark)) {
+                    response.json("Already linked.");
+                } else {
+                    checkResult.addBookmark(request.body.bookmark);
+                    response.json({
+                        linkSuccessful: true,
+                        tag: checkResult.dataValues.id,
+                        bookmark: request.body.bookmark
+                    });
+                }
+            } 
+            // Else, create a new tag or link
+            else {
+                db.Tag.create({
+                    name: request.body.name,
+                    UserId: request.session.user.id
+                }).then(function (createResult) {
+                    createResult.addBookmark(request.body.bookmark);
+                    response.json({
+                        linkSuccessful: true,
+                        tag: createResult.dataValues.id,
+                        bookmark: request.body.bookmark
+                    });
+                }).catch((err) => {
+                    response.status(500).json(err);
+                });
+            }
+        }).catch ( (err) => {
+            response.status(500).json(err);
+        });
     }
-    db.Tag.create({
-        BookmarkId: request.query.bookmark,
-        TagId: request.query.tag
-    }).then(function (result) {
-        response.json(result);
-    }).catch((err) => {
-        response.status(500).json(err);
-    });
+
 });
 
 // PUTS
 // rename a tag
-router.put("/", function (request, response) {
+router.put("/name", function (request, response) {
     // Check if logged in
     if (!request.session.user) {
         response.status(401).send("Not logged in");
         return;
     }
+
     db.Tag.update({
-        name: request.query.newName
-    }).then(function (result) {
-        response.json(result);
-    }).catch((err) => {
-        response.status(500).json(err);
-    });
-});
-// DELETES
-// Delete a user's tag
-router.delete("/", function (request, response) {
-    // Check if logged in
-    if (!request.session.user) {
-        response.status(401).send("Not logged in");
-        return;
-    }
-    db.Tag.destroy({
+        name: request.body.newName
+    }, {
         where: {
-            id: request.params.id
+            id: request.body.tag
         }
     }).then(function (result) {
         response.json(result);
@@ -116,26 +148,44 @@ router.delete("/", function (request, response) {
     });
 });
 
-// Delete a tag from a bookmark
-router.delete("/", function (request, response) {
+// DELETES
+// Delete a user's tag
+router.delete("/:tag", function (request, response) {
     // Check if logged in
     if (!request.session.user) {
         response.status(401).send("Not logged in");
         return;
     }
+
     db.Tag.destroy({
         where: {
-            id: request.body.id,
-        },
-        include: [{
-            model: db.Bookmark,
-            through: { attributes: [] },
-            attributes: ["color", "name", "url"]
-        }],
-        attributes: []
+            id: request.params.tag
+        }
     }).then(function (result) {
         response.json(result);
     }).catch((err) => {
         response.status(500).json(err);
     });
 });
+
+// Remove a tag from a bookmark
+router.delete("/:tag/:bookmark", function (request, response) {
+    // Check if logged in
+    if (!request.session.user) {
+        response.status(401).send("Not logged in");
+        return;
+    }
+
+    db.Tag.findOne({
+        where: {
+            id: request.params.tag
+        }
+    }).then( (result) => {
+        result.removeBookmark(request.params.bookmark);
+        response.json(true);
+    }).catch((err) => {
+        response.status(500).json(err);
+    });
+});
+
+module.exports = router;
