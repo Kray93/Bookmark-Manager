@@ -842,9 +842,9 @@
 							$baseLevelHolder.find( 'ul' ).each(function(){
 								$( this ).show(0);
 							});
-							// $( setToOpenHolders ).find( 'ul' ).css( 'visibility' , 'hidden' );
+							$( setToOpenHolders ).find( 'ul' ).css( 'visibility' , 'hidden' );
 							$( setToOpenHolders ).find( 'div' ).css( 'visibility' , 'visible' );
-							// $( setToOpenHolders ).find( '.' + instance.settings.backItemClass ).css( 'visibility' , 'hidden' );
+							$( setToOpenHolders ).find( '.' + instance.settings.backItemClass ).css( 'visibility' , 'hidden' );
 							$( setToOpenHolders ).each( function( key, val ) {
 								ieShadowFilterDistortion = ($( val ).css('filter').match(/DXImageTransform\.Microsoft\.Shadow/)) ? $( val ).get(0).filters.item("DXImageTransform.Microsoft.Shadow").strength : 0;
 								lwidth = baseWidth - ieShadowFilterDistortion + ( parentLevelHoldersLen - $( val ).attr( 'data-level' ) ) * ( instance.settings.overlapWidth + ieShadowFilterDistortion );
