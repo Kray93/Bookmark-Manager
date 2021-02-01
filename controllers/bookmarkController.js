@@ -241,7 +241,7 @@ router.put("/collection", function(request, response) {
     }
 
     if (request.body.id) {
-        if (request.body.deleteFromOriginalCollection === true) {
+        if (request.body.deleteFromOriginalCollection) {
             if (!request.body.originalCollection) {
                 response.status(301).json("In order to delete from original collection the original collection ID must be provided.");
                 // ^CLARIFY STATUS CODE
@@ -252,7 +252,7 @@ router.put("/collection", function(request, response) {
             where: {
                 id: request.body.id
             }
-        }).then( (result) => {
+        }).then( async (result) => {
 
             if (request.body.deleteFromOriginalCollection) {
                 if (result.hasCollection(request.body.originalCollection)) {
@@ -260,17 +260,16 @@ router.put("/collection", function(request, response) {
                 }
             }
 
-            if (result.hasCollection(request.body.newCollection)) {
-                response.json("Already linked.");
-                return;
+            if (await result.hasCollection(request.body.newCollection)) {
+                response.json("Already linked.")
+            } else {
+                await result.addCollection(request.body.newCollection);
+                response.json({
+                    linkedBookmarkToCollection: true,
+                    bookmark: result.dataValues.id,
+                    collection: request.body.newCollection
+                });
             }
-
-            result.addCollection(request.body.newCollection);
-            response.json({
-                linkedBookmarkToCollection: true,
-                bookmark: result.dataValues.id,
-                collection: request.body.newCollection
-            });
         });
     } else {
         const newCollection = request.body.newCollection;
