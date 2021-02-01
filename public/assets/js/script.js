@@ -42,33 +42,28 @@ function displayTabs(call) {
 
 // function to display BM
 
-function displayBM(data, bm) {
+function displayBM(data, cb) {
   if (data.id) {
     $.ajax({
       method: "GET",
       url: "/api/bookmarks/?id=" + data.id,
     })
-      .then(bm)
+      .then(cb)
       .fail((err) => {
         console.log(err);
       });
-  }
-  if (data.color || data.collection) {
-    $.get(
-      "/api/bookmarks/?collection= " + data.collection,
-      "/api/bookmarks/?color=" + data.color
-    )
-      .then(bm)
-      .fail((err) => {
-        console.log(err);
-      });
-  }
-  if (data.tag) {
-    $.get("/api/bookmarks/?tag=" + data.tag)
-      .then(bm)
-      .fail((err) => {
-        console.log(err);
-      });
+  } else {
+      let url = "/api/bookmarks/?";
+      if (data.color) {
+          url += `color=${data.color}&`
+      }
+      if (data.collection) {
+          url += `collection=${data.collection}`
+      }
+      if (data.tag) {
+          url += `tag=${data.tag}`
+          $.get(url).then(cb).fail(err => console.log(err))
+      }
   }
 }
 
@@ -94,11 +89,48 @@ function displayCollect(displaysub) {
 // TODO: function to edit account info
 // function editAccInfo()
 // TODO: function to edit tab
-// function editTab()
+// function updateTab()
 
-// function to edit BM name, url, comment, and color
+// function that creates edit page for BM
 
-function editBM(data) {
+function editBM(id){
+    displayBM({id}, bm => {
+        // bm.name
+        $("input[name=bookmark]").val(bm.name)
+        // bm.id
+        $("input[name=bmid]").val(bm.id)
+        // bm.url
+        $("input[name=bmurl]").val(bm.url)
+        // bm.color
+        $("input[name=bmcolor]").val(bm.color)
+        // bm.tags
+        $("input[name=bmtags]").val(bm.tags)
+        $("#edit-bookmark").on("submit", event => {
+            event.preventDefault();
+            updateBM(bm);
+        })
+    })
+}
+
+// function that creates edit page for collections
+
+function editCollection(id){
+    displayCollection({id}, collection => {
+        $("input[name=collection]").val(collection.name)
+        $("input[name=collectionid]").val(collection.id)
+        $("input[name=collectionurl]").val(collection.url)
+        $("input[name=collectioncolor]").val(collection.color)
+        $("input[name=collectiontags]").val(collection.tags)
+        $("#edit-collection").on("submit", event => {
+            event.preventDefault();
+            updateCollect();
+        })
+    })
+}
+
+// function to update BM name, url, comment, and color
+
+function updateBM(data) {
   if (data.newName) {
     $.ajax({
       method: "PUT",
@@ -145,9 +177,9 @@ function editBM(data) {
   }
 }
 
-// function to edit collection name, color, and parent
+// function to update collection name, color, and parent
 
-function editCollect(data) {
+function updateCollect(data) {
   if (data.newName) {
     $.ajax({
       method: "PUT",
@@ -224,7 +256,7 @@ function moveBM(newCollection, originalCollection, id, deleteFromOriginalCollect
             newCollection: ,
             originalCollection: ,
             id: ,
-            deleteFromOriginalCollection:
+            deleteFromOriginalCollection: 
          }
     }).then()
     .fail((err) => {
