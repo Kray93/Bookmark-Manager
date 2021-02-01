@@ -1,6 +1,3 @@
-// TODO: document.ready(function())
-// each will have an ajax call with .then and callback
-
 //Create Functions=========================================
 // TODO: function to create new account
 // function createNewAcc()
@@ -28,7 +25,7 @@ function createCollect(name, color, parent, callback) {
 }
 
 //Display Functions========================================
-// TODO: function to display everything in a tab
+// FIXME: function to display everything in a tab
 
 function displayTabs(call) {
   $.get("/api/collections")
@@ -75,7 +72,7 @@ function displayuncatBM(uncatBM) {
     });
 }
 
-// TODO: function to display collection
+// FIXME: function to display collection
 
 function displayCollect(displaysub) {
   $.get("/api/collection/subcollections")
@@ -89,7 +86,23 @@ function displayCollect(displaysub) {
 // TODO: function to edit account info
 // function editAccInfo()
 // TODO: function to edit tab
-// function updateTab()
+function updateTab(id) {
+  displayTabs({ id }),
+    (tag) => {
+      $("input[name=tag]").val(tag.name);
+      $("input[name=tagcolor]").val(tag.color);
+      $("#tagEditForm").on("submit", (event) => {
+        event.preventDefault();
+        const updatedTag = { id: tag.id };
+        if (tag.name !== $("input[name=tag]").val()) {
+          updatedTag.newName = $("input[name=tag]").val();
+        }
+        if (tag.color !== $("input[name=tagcolor]").val()) {
+          updatedTag.newColor = $("input[name=tagcolor]").val();
+        }
+      });
+    };
+}
 
 // function that creates edit page for BM
 
@@ -99,7 +112,7 @@ function editBM(id) {
     $("input[name=bmurl]").val(bm.url);
     $("input[name=bmcolor]").val(bm.color);
     $("input[name=bmtags]").val(bm.tags);
-    $("#edit-bookmark").on("submit", (event) => {
+    $("#bmEditForm").on("submit", (event) => {
       event.preventDefault();
       const updatedBM = { id: bm.id };
       if (bm.name !== $("input[name=bookmark]").val()) {
