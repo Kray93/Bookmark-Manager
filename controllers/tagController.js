@@ -181,8 +181,14 @@ router.delete("/:tag/:bookmark", function (request, response) {
             id: request.params.tag
         }
     }).then( (result) => {
-        result.removeBookmark(request.params.bookmark);
-        response.json(true);
+        if (result.hasBookmark(request.params.bookmark)) {
+            result.removeBookmark(request.params.bookmark);
+            response.json({
+                removedLink: true,
+                tag: request.params.tag,
+                bookmark: request.params.bookmark
+            });
+        }
     }).catch((err) => {
         response.status(500).json(err);
     });
