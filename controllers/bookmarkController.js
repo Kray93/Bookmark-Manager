@@ -18,11 +18,15 @@ router.get("/", function(request, response) {
             where: {
                 id: request.query.id
             },
-            include: {
+            include: [{
                 model: db.Collection,
                 attributes: [["name", "collectionName"], ["id", "collectionID"], ["color", "collectionColor"]],
-                through: {attributes: []}
-            }
+                through: { attributes: [] }
+            }, {
+                model: db.Tag,
+                attributes: [ ["name", "tagName"] ],
+                through: { attributes: [] }
+            }]
         }).then( (result) => {
             response.json(result);
         }).catch( (err) => {
