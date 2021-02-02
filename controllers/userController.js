@@ -15,7 +15,7 @@ router.post("/signup", function(request, response) {
     });
 });
 
-router.get("/login", (req, res) => res.render("login"));
+router.get("/login", (req, res) => res.render("account"));
 
 // Log-in route (sets session user)
 router.post("/login", function(request, response) {
