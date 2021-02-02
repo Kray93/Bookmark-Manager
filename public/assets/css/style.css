@@ -4,6 +4,10 @@ body {
   border: 0;
 }
 
+i.fas {
+  padding: 0 2px;
+}
+
 .editForm {
   display: none;
 }
