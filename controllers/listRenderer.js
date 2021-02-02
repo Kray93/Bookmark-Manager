@@ -32,7 +32,6 @@ router.get("/", async function(request, response) {
         },
         attributes: ['id', 'name', 'color']
     })).map(collection => collection.dataValues); 
-    console.log(topLevelCollections);
 
     // 3. FOR EACH COLLECTION, GET ALL SUB-COLLECTIONS AND BOOKMARKS
     for (let i = 0; i < topLevelCollections.length; i++) {
@@ -63,7 +62,6 @@ router.get("/", async function(request, response) {
 
     returnObj.collections = topLevelCollections;
 
-    // console.log(returnObj);
     response.render("index", returnObj);
 });
 
