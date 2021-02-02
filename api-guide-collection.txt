@@ -1,0 +1,66 @@
+/*
+
+RETRIEVE ALL COLLECTIONS THAT ARE NOT A SUB-COLLECTION
+route:
+    "/api/collections/"
+method:
+    "GET"
+
+RETRIEVE ALL SUB-COLLECTIONS IN A GIVEN COLLECTION
+route:
+    "/api/collections/subcollections"
+method:
+    "GET"
+
+CREATE A NEW COLLECTION
+route:
+    "/api/collections/"
+method:
+    "POST"
+expected body parameters (parameters in square brackets [] are optional):
+    {
+        name: <string>,
+        [color: <color enum>],
+        [ParentCollection: <integer, ID of parent collection>]
+    }
+
+RENAME A COLLECTION
+route:
+    "/api/collections/name"
+method:
+    "PUT"
+expected body parameters:
+    {
+        newName: <string>,
+        id: <integer, ID of collection to rename>
+    }
+
+MOVE COLLECTION TO A NEW PARENT
+route:
+    "/api/collections/parent"
+method: 
+    "PUT"
+expected body parameters:
+    {
+        newParent: <integer, ID of new parent collection>,
+        ids: <ARRAY of integers, list of collections IDs to move to new parent>
+    }
+
+CHANGE A COLLECTION'S COLOR
+route: 
+    "/api/collection/color"
+method:
+    "PUT"
+expected body parameters:
+    {
+        newColor: <color enum>,
+        ids: <ARRAY of integers, list of collection IDs to re-color> 
+    }
+
+REMOVE A COLLECTION
+route:
+    "/api/collection/:id"
+method:
+    "DELETE"
+
+*/
