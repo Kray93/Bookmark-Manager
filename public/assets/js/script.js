@@ -179,6 +179,10 @@ function editBM(id) {
     $("input[name=bmcolor]").val(bm.color);
     $("input[name=bmtags]").val(bm.tags);
     $("textarea[name=bmcomment]").val(bm.comment);
+    const collectionIDs = bm.Collections.map(collection => collection.collectionID);
+    let collectionsChanged = false;
+    $("select[name=bmcollections").val(collectionIDs).formSelect().on("change", () => collectionsChanged = true);
+    console.log($("select[name=bmcollections").val());
     $("#bmForm").on("submit", (event) => {
       event.preventDefault();
       const updatedBM = { id: bm.id };
@@ -196,6 +200,9 @@ function editBM(id) {
       }
       if (bm.comment !== $("textarea[name=bmcomment]").val()) {
         updatedBM.newComment = $("textarea[name=bmcomment]").val();
+      }
+      if (collectionsChanged) {
+        updatedBM.newCollections = $("select[name=bmcollections").val();
       }
       updateBM(updatedBM, () => location.reload());
     });
@@ -282,6 +289,9 @@ function updateBM(data, cb) {
         console.log(err);
         if (err.status == 401) location.replace("/login");
       });
+  }
+  if (data.newCollections) {
+    // TODO: hit addAll collections API
   }
 }
 
