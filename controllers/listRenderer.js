@@ -7,15 +7,15 @@ const { QueryTypes } = require('sequelize');
 
 router.get("/", async function(request, response) {
 
-    // 1. GET ALL UNCATEGORIZED BOOKMARKS
     // Check if logged in
     if (!request.session.user) {
         response.status(401).send("Not logged in");
         return;
     }
-
+    
     const returnObj = {};
-
+    
+    // 1. GET ALL UNCATEGORIZED BOOKMARKS
     const uncategorizedBookmarks = await db.sequelize.query(
         'SELECT `id`, `name`, `url`, `color` FROM bookmarks ' +
         'LEFT JOIN bookmark_collections ON bookmark_collections.BookmarkId = bookmarks.id ' +

@@ -239,6 +239,46 @@ router.put("/color", function(request, response) {
     });
 });
 
+router.put("/collection/addTo", async function (request, response) {
+    // Check if logged in
+    if (!request.session.user) {
+        response.status(401).send("Not logged in");
+        return;
+    }
+
+    // Expecting in body:
+    //      ids: array of bookmark IDs to add to new collectin
+    //      newCollections: array of IDs of new target collections
+    //      deleteFromOriginalCollections: boolean, 'true' will remove 
+    //          all references to all bookmarks in all collections
+
+    var deleteResult;
+    if (request.body.deleteFromOriginalCollections) {
+        deleteResult = await db.sequelize.models.bookmark_collections.destroy({
+            where: {
+                BookmarkId: { [Op.in]: ids }
+            }
+        });
+    }
+
+    const addArr = [];
+    for (let i = 0; i < ids.length; i++) {
+        for (let j = 0; j < newCollections.length; j++) {
+            addArr.push({
+                BookmarkId: ids[i],
+                CollectionId: newCollections[j]
+            });
+        }
+    }
+
+    const addResult = await db.sequelize.models.bookmark_collections.bulkCreate(addArr);
+    if (deleteResult) {
+        response.json([addResult, deleteResult]);
+    } else {
+        response.json(addResult);
+    }
+});
+
 // Move bookmark(s) to a different collection
 router.put("/collection", function(request, response) {
     // Check if logged in
@@ -248,7 +288,6 @@ router.put("/collection", function(request, response) {
     }
 
     // Remove specified bookmark(s) from a collection without specifying a new collection
-    // This will move all specified bookmarks to uncategorized
     if (!request.body.newCollection && request.body.originalCollection) {
         db.sequelize.models.bookmark_collections.destroy({
             where: {
