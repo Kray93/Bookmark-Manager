@@ -18,8 +18,8 @@ router.get("/", async function(request, response) {
     const returnObj = {};
 
     const uncategorizedBookmarks = await db.sequelize.query(
-        'SELECT `id`, `name`, `url`, `color` FROM bookmarks ' +
-        'LEFT JOIN bookmark_collections ON bookmark_collections.BookmarkId = bookmarks.id ' +
+        'SELECT `id`, `name`, `url`, `color` FROM Bookmarks ' +
+        'LEFT JOIN bookmark_collections ON bookmark_collections.BookmarkId = Bookmarks.id ' +
         'WHERE bookmark_collections.BookmarkId IS NULL', { type: QueryTypes.SELECT });
 
     returnObj.bookmarks = uncategorizedBookmarks;
