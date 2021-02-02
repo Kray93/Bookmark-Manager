@@ -162,10 +162,10 @@ router.put("/name", function(request, response) {
             id: request.body.id
         }
     }).then((result) => {
-        if (result.affectedRows === 0) {
+        if (result[0] === 0) {
             // send a status 
         } else {
-            response.json(result.affectedRows);
+            response.json(result);
         }
     }).catch((err) => {
         response.status(500).json(err);
@@ -187,10 +187,10 @@ router.put("/url", function(request, response) {
             id: request.body.id
         }
     }).then((result) => {
-        if (result.affectedRows === 0) {
+        if (result[0] === 0) {
             // send a status 
         } else {
-            response.json(result.affectedRows);
+            response.json(result);
         }
     }).catch((err) => {
         response.status(500).json(err);
@@ -212,10 +212,10 @@ router.put("/comment", function(request, response) {
             id: request.body.id
         }
     }).then((result) => {
-        if (result.affectedRows === 0) {
+        if (result[0] === 0) {
             // send a status 
         } else {
-            response.json(result.affectedRows);
+            response.json(result);
         }
     }).catch((err) => {
         response.status(500).json(err);
@@ -237,7 +237,7 @@ router.put("/color", function(request, response) {
             id: { [ Op.in ]: request.body.id }
         }
     }).then((result) => {
-        if (result.affectedRows === 0) {
+        if (result[0] === 0) {
             // send a status 
             console.log("No rows affected");
         } else {
