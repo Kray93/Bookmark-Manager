@@ -61,7 +61,7 @@ router.get("/", async function(request, response) {
 
     returnObj.collections = topLevelCollections;
 
-    response.json(returnObj);
+    response.render("index", returnObj);
 });
 
 // Recursive function to retrieve all subcollections in every collection
