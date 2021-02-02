@@ -155,7 +155,7 @@ function editBM(id) {
   displayBM({ id }, (bm) => {
     $("input[name=bookmark]").val(bm.name);
     $("input[name=bmurl]").val(bm.url);
-    $("input[name=bmcolor]").val(bm.color);
+    $("select[name=bmcolor]").val(bm.color).formSelect();
     $("input[name=bmtags]").val(bm.tags);
     $("textarea[name=bmcomment]").val(bm.comment);
     const collectionIDs = bm.Collections.map(collection => collection.collectionID);
@@ -171,8 +171,8 @@ function editBM(id) {
       if (bm.url !== $("input[name=bmurl]").val()) {
         updatedBM.newURL = $("input[name=bmurl]").val();
       }
-      if (bm.color !== $("input[name=bmcolor]").val()) {
-        updatedBM.newColor = $("input[name=bmcolor]").val();
+      if (bm.color !== $("select[name=bmcolor]").val()) {
+        updatedBM.newColor = $("select[name=bmcolor]").val();
       }
       if (bm.tags !== $("input[name=bmtags]").val()) {
         updatedBM.newParent = $("input[name=bmtags]").val();
