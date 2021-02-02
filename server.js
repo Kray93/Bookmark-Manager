@@ -48,6 +48,7 @@ const tagController = require('./controllers/tagController');
 app.use('/api/tags', tagController);
 
 app.use(require('./controllers/listRenderer'));
+app.use(require('./controllers/modalRenderer'));
 
 require('./routes/api-routes')(app);
 
