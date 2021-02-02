@@ -6,10 +6,7 @@
 function createTag(name, color, callback) {
   $.post("/api/bookmarks/tags", { data: { name, color } })
     .then(callback)
-    .fail((err) => {
-      console.log(err);
-      if (err.status == 401) location.replace("/login");
-    });
+    .fail(handleApiErr);
 }
 
 // function to create BM
@@ -17,10 +14,7 @@ function createTag(name, color, callback) {
 function createBM(name, url, comment, color, collection, callback) {
   $.post("/api/bookmarks", { data: { name, url, comment, color, collection } })
     .then(callback)
-    .fail((err) => {
-      console.log(err);
-      if (err.status == 401) location.replace("/login");
-    });
+    .fail(handleApiErr);
 }
 
 // function to create collection
@@ -28,10 +22,7 @@ function createBM(name, url, comment, color, collection, callback) {
 function createCollect(name, color, parent, callback) {
   $.post("/api/collections/", { data: { name, color, parent } })
     .then(callback)
-    .fail((err) => {
-      console.log(err);
-      if (err.status == 401) location.replace("/login");
-    });
+    .fail(handleApiErr);
 }
 
 // function for create tag form
@@ -84,10 +75,7 @@ function createCollectionForm() {
 function displayTabs(call) {
   $.get("/api/collections")
     .then(call)
-    .fail((err) => {
-      console.log(err);
-      if (err.status == 401) location.replace("/login");
-    });
+    .fail(handleApiErr);
 }
 
 // function to display BM
@@ -99,10 +87,7 @@ function displayBM(data, cb) {
       url: "/api/bookmarks/?id=" + data.id,
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   } else {
     let url = "/api/bookmarks/?";
     if (data.color) {
@@ -116,10 +101,7 @@ function displayBM(data, cb) {
     }
     $.get(url)
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
 }
 
@@ -246,10 +228,7 @@ function updateBM(data, cb) {
       data: { newName: data.newName, id: data.id },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
   if (data.newURL) {
     $.ajax({
@@ -258,10 +237,7 @@ function updateBM(data, cb) {
       data: { newURL: data.newURL, id: data.id },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
   if (data.newComment) {
     $.ajax({
@@ -270,10 +246,7 @@ function updateBM(data, cb) {
       data: { newComment: data.newComment, id: data.id },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
   if (data.newColor) {
     $.ajax({
@@ -282,10 +255,7 @@ function updateBM(data, cb) {
       data: { newColor: data.newColor, id: [data.id] },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
   if (data.newCollections) {
     // TODO: hit addAll collections API
@@ -295,10 +265,7 @@ function updateBM(data, cb) {
       data: { id: data.id, newCollections: data.newCollections }
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
 }
 
@@ -312,10 +279,7 @@ function updateCollect(data, cb) {
       data: { newName: data.newName, id: data.id },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
   if (data.newColor) {
     $.ajax({
@@ -324,10 +288,7 @@ function updateCollect(data, cb) {
       data: { newColor: data.color, id: data.id },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
   if (data.newParent) {
     $.ajax({
@@ -336,10 +297,7 @@ function updateCollect(data, cb) {
       data: { newParent: data.parent, id: data.id },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
 }
 
@@ -353,10 +311,7 @@ function updateTag(data, cb) {
       data: { newName: data.newName, id: data.id },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
   if (data.newColor) {
     $.ajax({
@@ -365,10 +320,7 @@ function updateTag(data, cb) {
       data: { newColor: data.color, id: data.id },
     })
       .then(cb)
-      .fail((err) => {
-        console.log(err);
-        if (err.status == 401) location.replace("/login");
-      });
+      .fail(handleApiErr);
   }
 }
 
@@ -384,10 +336,7 @@ function deleteBM() {
     url: "/api/bookmarks/:id",
   })
     .then()
-    .fail((err) => {
-      console.log(err);
-      if (err.status == 401) location.replace("/login");
-    });
+    .fail(handleApiErr);
 }
 
 // function to delete collection
@@ -398,10 +347,7 @@ function deleteCollect() {
     url: "/api/collection/:id",
   })
     .then()
-    .fail((err) => {
-      console.log(err);
-      if (err.status == 401) location.replace("/login");
-    });
+    .fail(handleApiErr);
 }
 
 //Move Functions============================================
@@ -426,6 +372,11 @@ function deleteCollect() {
 
 // TODO: set up click event handlers for links to get subcollections
 // TODO: create next menu for those
+
+function handleApiErr(err) {
+  console.error(err);
+  if (err.status == 401) location.replace("/login");
+}
 
 $(() => {
   $("#menu").multilevelpushmenu({ menuWidth: "20%", preventItemClick: false });
