@@ -253,7 +253,6 @@ router.put("/collection", function(request, response) {
                 id: request.body.id
             }
         }).then( async (result) => {
-
             if (request.body.deleteFromOriginalCollection) {
                 if (result.hasCollection(request.body.originalCollection)) {
                     result.removeCollection(request.body.originalCollection);

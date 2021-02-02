@@ -47,6 +47,8 @@ app.use('/api/bookmarks', bookmarkController);
 const tagController = require('./controllers/tagController');
 app.use('/api/tags', tagController);
 
+app.use(require('./controllers/listRenderer'));
+
 require('./routes/api-routes')(app);
 
 db.sequelize.sync({ force: false }).then(function() {
