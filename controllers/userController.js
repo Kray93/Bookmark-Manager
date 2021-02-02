@@ -3,6 +3,8 @@ const router    = express.Router();
 const db        = require('../models');
 const bcrypt    = require("bcrypt");
 
+router.get("/signup", (req, res) => res.render("account", { create: true }));
+
 // Sign up route (creates a new user)
 router.post("/signup", function(request, response) {
     db.User.create({
@@ -15,7 +17,7 @@ router.post("/signup", function(request, response) {
     });
 });
 
-router.get("/login", (req, res) => res.render("account"));
+router.get("/login", (req, res) => res.render("account", { create: false }));
 
 // Log-in route (sets session user)
 router.post("/login", function(request, response) {
