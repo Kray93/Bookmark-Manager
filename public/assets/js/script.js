@@ -292,6 +292,16 @@ function updateBM(data, cb) {
   }
   if (data.newCollections) {
     // TODO: hit addAll collections API
+    $.ajax({
+      method: "PUT",
+      url: "/api/bookmarks/collection",
+      data: { id: data.id, newCollections: data.newCollections }
+    })
+      .then(cb)
+      .fail((err) => {
+        console.log(err);
+        if (err.status == 401) location.replace("/login");
+      });
   }
 }
 
