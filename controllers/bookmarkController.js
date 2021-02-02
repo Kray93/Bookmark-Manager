@@ -117,13 +117,20 @@ router.post("/", function(request, response) {
         color: request.body.color,
         UserId: request.session.user.id
     }).then( (result) => {
-        if (request.body.collection) {
-            result.addCollection(request.body.collection);
-            response.json({
-                linkedToCollection: true,
-                bookmark: result.dataValues.id,
-                collection: request.body.collection
+        if (request.body.collections) {
+            const insertArr = request.body.collections.map(
+                e => ({ BookmarkId: result.dataValues.id, CollectionId: e })
+            );
+
+            db.sequelize.models.bookmark_collections.bulkCreate(
+                insertArr
+            ).then( (linkResult) => {
+                response.json( [result, linkResult] );
+            }).catch( (err) => {
+                response.status(500).json(err);
             });
+        } else {
+            response.json(result);
         }
     }).catch( (err) => {
         response.status(500).json(err);
@@ -165,7 +172,7 @@ router.put("/url", function(request, response) {
     }
 
     db.Bookmark.update({
-        name: request.body.newURL
+        url: request.body.newURL
     }, {
         where: {
             id: request.body.id
@@ -190,7 +197,7 @@ router.put("/comment", function(request, response) {
     }
 
     db.Bookmark.update({
-        name: request.body.comment
+        comment: request.body.comment
     }, {
         where: {
             id: request.body.id
@@ -237,6 +244,22 @@ router.put("/collection", function(request, response) {
     // Check if logged in
     if (!request.session.user) {
         response.status(401).send("Not logged in");
+        return;
+    }
+
+    // Remove specified bookmark(s) from a collection without specifying a new collection
+    // This will move all specified bookmarks to uncategorized
+    if (!request.body.newCollection && request.body.originalCollection) {
+        db.sequelize.models.bookmark_collections.destroy({
+            where: {
+                BookmarkId: { [ Op.in ]: result },
+                CollectionId: request.body.originalCollection
+            }
+        }).then((deleteResult) => {
+            response.json([result, result2, deleteResult]);
+        }).catch((err) => {
+            response.status(500).json(err);
+        });
         return;
     }
 
@@ -322,6 +345,9 @@ router.put("/collection", function(request, response) {
 
     
 });
+
+// Remove bookmark(s) from a collection
+
 
 // Delete single bookmark
 router.delete("/:id", function(request, response) {

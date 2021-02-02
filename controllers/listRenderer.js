@@ -34,8 +34,6 @@ router.get("/", async function(request, response) {
 
     // 3. FOR EACH COLLECTION, GET ALL SUB-COLLECTIONS AND BOOKMARKS
     for (let i = 0; i < topLevelCollections.length; i++) {
-        // const subCollections = await getSubcollections(topLevelCollections[i].dataValues.id)
-        // console.log(subCollections);
         topLevelCollections[i].dataValues.collections 
             = await getSubcollections(topLevelCollections[i].dataValues.id,
                 request.session.user.id);
