@@ -26,7 +26,7 @@
         $("#login-form").submit(event => {
             event.preventDefault();
             $.post("/login", { username: $("input[name=username]").val(), password: $("input[name=password]").val() })
-                .then(setTimeout(() => location.replace("/"), 500)).fail(err => alert(err));
+                .then(() => setTimeout(() => location.replace("/"), 500)).fail(err => alert(err.responseText));
         })
     })
 </script>
