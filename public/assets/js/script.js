@@ -33,61 +33,48 @@ function createCollect(name, color, parent, callback) {
 
 // function for create tag form
 
-function createTagForm(id) {
-  displayTabs({ id }, (tag) => {
-    $("input[name=tag]").val(tag.name);
-    $("input[name=tagcolor]").val(tag.color);
-    $("#tagEditForm").on("submit", (event) => {
-      event.preventDefault();
-      const createdTag = { id: tag.id };
-      createdTag.newName = $("input[name=tag]").val();
-      createdTag.newColor = $("input[name=tagcolor]").val();
-      createTagForm(createdTag, location.reload);
-    });
-    $("#tagEditForm").show();
+function createTagForm() {
+  $("#tagEditForm").on("submit", (event) => {
+    event.preventDefault();
+    createTag(
+      $("input[name=tag]").val(),
+      $("input[name=tagcolor]").val(),
+      location.reload
+    );
   });
+  $("#tagEditForm").show();
 }
 
 // function for create BM form
 
-function createBMForm(id) {
-  displayBM({ id }, (bm) => {
-    $("input[name=bookmark]").val(bm.name);
-    $("input[name=bmurl]").val(bm.url);
-    $("input[name=bmcolor]").val(bm.color);
-    $("input[name=bmtags]").val(bm.tags);
-    $("#create-bookmark").on("submit", (event) => {
-      event.preventDefault();
-      const createdBM = { id: bm.id };
-      createdBM.newName = $("input[name=bookmark]").val();
-      createdBM.newURL = $("input[name=bmurl]").val();
-      createdBM.newColor = $("input[name=bmcolor]").val();
-      createdBM.newParent = $("input[name=bmtags]").val();
-      createBM(createdBM, location.reload);
-    });
-    $("#bmEditForm").show();
+function createBMForm() {
+  $("#bmEditForm").on("submit", (event) => {
+    event.preventDefault();
+    createBM(
+      $("input[name=bookmark]").val(),
+      $("input[name=bmurl]").val(),
+      $("#notes").val(), //textarea
+      $("select").material_select(), //dropdown menu
+      $("input[name=bmcolor]").val(),
+      location.reload
+    );
   });
+  $("#bmEditForm").show();
 }
 
 // function for create collection form
 
-function createCollectionForm(id) {
-  displayCollect({ id }, (collection) => {
-    $("input[name=collection]").val(collection.name);
-    $("input[name=collectionurl]").val(collection.url);
-    $("input[name=collectioncolor]").val(collection.color);
-    $("input[name=collectiontags]").val(collection.tags);
-    $("#edit-collection").on("submit", (event) => {
-      event.preventDefault();
-      const createdCollect = { id: collection.id };
-      createdCollect.newName = $("input[name=bookmark]").val();
-      createdCollect.newURL = $("input[name=bmurl]").val();
-      createdCollect.newColor = $("input[name=bmcolor]").val();
-      createdCollect.newParent = $("input[name=bmtags]").val();
-      createCollect(createdCollect, location.reload);
-    });
-    $("#collectEditForm").show();
+function createCollectionForm() {
+  $("#edit-collection").on("submit", (event) => {
+    event.preventDefault();
+    createCollection(
+      $("input[name=collection]").val(),
+      $("input[name=collectionparent]").val(),
+      $("input[name=collectioncolor]").val(),
+      location.reload
+    );
   });
+  $("#collectEditForm").show();
 }
 
 //Display Functions========================================

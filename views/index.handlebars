@@ -26,8 +26,18 @@
     <form>
         <input type="text" name="bookmark">
         <input type="text" name="bmurl">
+        <textarea name="comments" id="notes" cols="50" rows="30"></textarea>
+        <br>
+        <div class="input-field col s5">
+            <select name="bookmark-options" id="options">
+                <option value="0">{{ collection }}</option>
+                <option value="1">{{ collection }}</option>
+                <option value="2">{{ collection }}</option>
+                <option value="3">{{ collection }}</option>
+                <option value="4">{{ collection }}</option>
+            </select>
+        </div>
         <input type="text" name="bmcolor">
-        <input type="text" name="bmtags">
         <input type="submit" name="bmupdate">
     </form>
 </div>
@@ -35,9 +45,16 @@
 <div id="collectEditForm" class="editForm">
     <form>
         <input type="text" name="collection">
-        <input type="text" name="collectionurl">
         <input type="text" name="collectioncolor">
-        <input type="text" name="collectiontags">
+        <div class="input-field col s5" name="collectionparent">
+            <select name="bookmark-options" id="options">
+                <option value="0">{{ tag }}</option>
+                <option value="1">{{ tag }}</option>
+                <option value="2">{{ tag }}</option>
+                <option value="3">{{ tag }}</option>
+                <option value="4">{{ tag }}</option>
+            </select>
+        </div>
         <input type="submit" name="collectionupdate">
     </form>
 </div>
