@@ -8,6 +8,7 @@ function createTag(name, color, callback) {
     .then(callback)
     .fail((err) => {
       console.log(err);
+      if (err.status == 401) location.replace("/login");
     });
 }
 
@@ -18,6 +19,7 @@ function createBM(name, url, comment, color, collection, callback) {
     .then(callback)
     .fail((err) => {
       console.log(err);
+      if (err.status == 401) location.replace("/login");
     });
 }
 
@@ -28,6 +30,7 @@ function createCollect(name, color, parent, callback) {
     .then(callback)
     .fail((err) => {
       console.log(err);
+      if (err.status == 401) location.replace("/login");
     });
 }
 
@@ -85,6 +88,7 @@ function displayTabs(call) {
     .then(call)
     .fail((err) => {
       console.log(err);
+      if (err.status == 401) location.replace("/login");
     });
 }
 
@@ -99,6 +103,7 @@ function displayBM(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   } else {
     let url = "/api/bookmarks/?";
@@ -106,14 +111,18 @@ function displayBM(data, cb) {
       url += `color=${data.color}&`;
     }
     if (data.collection) {
-      url += `collection=${data.collection}`;
+      url += `collection=${data.collection}&`;
     }
     if (data.tag) {
       url += `tag=${data.tag}`;
-      $.get(url)
-        .then(cb)
-        .fail((err) => console.log(err));
     }
+    $.get(url)
+      .then(cb)
+      .fail((err) => {
+        console.log(err);
+        if (err.status == 401) location.replace("/login");
+      });
+    
   }
 }
 
@@ -132,6 +141,7 @@ function displayCollect(displaysub) {
     .then(displaysub)
     .fail((err) => {
       console.log(err);
+      if (err.status == 401) location.replace("/login");
     });
 }
 
@@ -234,6 +244,7 @@ function updateBM(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
   if (data.newURL) {
@@ -245,6 +256,7 @@ function updateBM(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
   if (data.newComment) {
@@ -256,6 +268,7 @@ function updateBM(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
   if (data.newColor) {
@@ -267,6 +280,7 @@ function updateBM(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
 }
@@ -283,6 +297,7 @@ function updateCollect(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
   if (data.newColor) {
@@ -294,6 +309,7 @@ function updateCollect(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
   if (data.newParent) {
@@ -305,6 +321,7 @@ function updateCollect(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
 }
@@ -321,6 +338,7 @@ function updateTag(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
   if (data.newColor) {
@@ -332,6 +350,7 @@ function updateTag(data, cb) {
       .then(cb)
       .fail((err) => {
         console.log(err);
+        if (err.status == 401) location.replace("/login");
       });
   }
 }
@@ -350,6 +369,7 @@ function deleteBM() {
     .then()
     .fail((err) => {
       console.log(err);
+      if (err.status == 401) location.replace("/login");
     });
 }
 
@@ -363,6 +383,7 @@ function deleteCollect() {
     .then()
     .fail((err) => {
       console.log(err);
+      if (err.status == 401) location.replace("/login");
     });
 }
 
@@ -382,6 +403,7 @@ function deleteCollect() {
 //     }).then()
 //     .fail((err) => {
 //       console.log(err);
+        // if (err.status == 401) location.replace("/login");
 //     });
 // }
 
