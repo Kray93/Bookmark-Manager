@@ -190,7 +190,7 @@ router.put("/comment", function(request, response) {
     }
 
     db.Bookmark.update({
-        name: request.body.comment
+        name: request.body.newComment
     }, {
         where: {
             id: request.body.id
