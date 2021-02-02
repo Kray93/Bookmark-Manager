@@ -61,12 +61,10 @@ router.get("/", async function(request, response) {
 
     returnObj.collections = topLevelCollections;
 
-    // 4. FOR EACH COLLECTION, GET ALL BOOKMARKS
-
-
     response.json(returnObj);
 });
 
+// Recursive function to retrieve all subcollections in every collection
 async function getSubcollections(collectionId, userId) {
     const subCollections = await db.Collection.findAll({
         where: {
