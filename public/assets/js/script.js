@@ -34,7 +34,7 @@ function createCollect(name, color, parent, callback) {
 // function for create tag form
 
 function createTagForm() {
-  $("#tagEditForm").on("submit", (event) => {
+  $("#tagForm").on("submit", (event) => {
     event.preventDefault();
     createTag(
       $("input[name=tag]").val(),
@@ -42,13 +42,13 @@ function createTagForm() {
       location.reload
     );
   });
-  $("#tagEditForm").show();
+  $("#tagFormDiv").show();
 }
 
 // function for create BM form
 
 function createBMForm() {
-  $("#bmEditForm").on("submit", (event) => {
+  $("#bmForm").on("submit", (event) => {
     event.preventDefault();
     createBM(
       $("input[name=bookmark]").val(),
@@ -59,13 +59,13 @@ function createBMForm() {
       location.reload
     );
   });
-  $("#bmEditForm").show();
+  $("#bmFormDiv").show();
 }
 
 // function for create collection form
 
 function createCollectionForm() {
-  $("#edit-collection").on("submit", (event) => {
+  $("#collectForm").on("submit", (event) => {
     event.preventDefault();
     createCollection(
       $("input[name=collection]").val(),
@@ -74,7 +74,7 @@ function createCollectionForm() {
       location.reload
     );
   });
-  $("#collectEditForm").show();
+  $("#collectFormDiv").show();
 }
 
 //Display Functions========================================
@@ -145,7 +145,7 @@ function updateTab(id) {
   displayTabs({ id }, (tag) => {
     $("input[name=tag]").val(tag.name);
     $("input[name=tagcolor]").val(tag.color);
-    $("#tagEditForm").on("submit", (event) => {
+    $("#tagForm").on("submit", (event) => {
       event.preventDefault();
       const updatedTag = { id: tag.id };
       if (tag.name !== $("input[name=tag]").val()) {
@@ -156,7 +156,7 @@ function updateTab(id) {
       }
       updateTag(updatedTag, location.reload);
     });
-    $("#tagEditForm").show();
+    $("#tagFormDiv").show();
   });
 }
 
@@ -168,7 +168,7 @@ function editBM(id) {
     $("input[name=bmurl]").val(bm.url);
     $("input[name=bmcolor]").val(bm.color);
     $("input[name=bmtags]").val(bm.tags);
-    $("#edit-bookmark").on("submit", (event) => {
+    $("#bmForm").on("submit", (event) => {
       event.preventDefault();
       const updatedBM = { id: bm.id };
       if (bm.name !== $("input[name=bookmark]").val()) {
@@ -183,9 +183,9 @@ function editBM(id) {
       if (bm.tags !== $("input[name=bmtags]").val()) {
         updatedBM.newParent = $("input[name=bmtags]").val();
       }
-      updateBM(updatedBM, location.reload);
+      updateBM(updatedBM, console.log);
     });
-    $("#bmEditForm").show();
+    $("#bmFormDiv").show();
   });
 }
 
@@ -197,7 +197,7 @@ function editCollection(id) {
     $("input[name=collectionurl]").val(collection.url);
     $("input[name=collectioncolor]").val(collection.color);
     $("input[name=collectiontags]").val(collection.tags);
-    $("#edit-collection").on("submit", (event) => {
+    $("#collectForm").on("submit", (event) => {
       event.preventDefault();
       const updatedCollect = { id: collection.id };
       if (bm.name !== $("input[name=bookmark]").val()) {
@@ -214,7 +214,7 @@ function editCollection(id) {
       }
       updateCollect(updatedCollect, location.reload);
     });
-    $("#collectEditForm").show();
+    $("#collectFormDiv").show();
   });
 }
 
@@ -222,6 +222,7 @@ function editCollection(id) {
 
 function updateBM(data, cb) {
   if (data.newName) {
+    console.log("newname");
     $.ajax({
       method: "PUT",
       url: "/api/collections/name",
@@ -233,6 +234,7 @@ function updateBM(data, cb) {
       });
   }
   if (data.newURL) {
+    console.log("New url");
     $.ajax({
       method: "PUT",
       url: "/api/bookmarks/url",
@@ -244,6 +246,7 @@ function updateBM(data, cb) {
       });
   }
   if (data.newComment) {
+    console.log("new comment");
     $.ajax({
       method: "PUT",
       url: "/api/bookmarks/comment",
@@ -255,6 +258,7 @@ function updateBM(data, cb) {
       });
   }
   if (data.newColor) {
+    console.log("new color");
     $.ajax({
       method: "PUT",
       url: "/api/collections/color",
