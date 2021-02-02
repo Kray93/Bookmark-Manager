@@ -247,7 +247,7 @@ router.put("/collection/addTo", async function (request, response) {
     }
 
     // Expecting in body:
-    //      ids: array of bookmark IDs to add to new collectin
+    //      ids: array of bookmark IDs to add to new collection
     //      newCollections: array of IDs of new target collections
     //      deleteFromOriginalCollections: boolean, 'true' will remove 
     //          all references to all bookmarks in all collections
@@ -256,26 +256,37 @@ router.put("/collection/addTo", async function (request, response) {
     if (request.body.deleteFromOriginalCollections) {
         deleteResult = await db.sequelize.models.bookmark_collections.destroy({
             where: {
-                BookmarkId: { [Op.in]: ids }
+                BookmarkId: { [Op.in]: request.body.ids }
+            }
+        });
+    } else {
+        deleteResult = await db.sequelize.models.bookmark_collections.destroy({
+            where: {
+                BookmarkId: { [Op.in]: request.body.ids },
+                CollectionId: { [Op.in]: request.body.newCollections }
             }
         });
     }
 
     const addArr = [];
-    for (let i = 0; i < ids.length; i++) {
-        for (let j = 0; j < newCollections.length; j++) {
+    for (let i = 0; i < request.body.ids.length; i++) {
+        for (let j = 0; j < request.body.newCollections.length; j++) {
             addArr.push({
-                BookmarkId: ids[i],
-                CollectionId: newCollections[j]
+                BookmarkId: request.body.ids[i],
+                CollectionId: request.body.newCollections[j]
             });
         }
     }
 
-    const addResult = await db.sequelize.models.bookmark_collections.bulkCreate(addArr);
-    if (deleteResult) {
-        response.json([addResult, deleteResult]);
+    if (addArr.length > 0) {
+        const addResult = await db.sequelize.models.bookmark_collections.bulkCreate(addArr);
+        if (deleteResult) {
+            response.json([addResult, deleteResult]);
+        } else {
+            response.json(addResult);
+        }
     } else {
-        response.json(addResult);
+        response.json("No rows updated.");
     }
 });
 
