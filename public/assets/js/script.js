@@ -423,8 +423,8 @@ $(() => {
   $(".edit").on("click", function (event) {
     event.stopPropagation();
     event.preventDefault();
-    const id = $(this).data("id");
-    switch ($(this).data("type")) {
+    const id = $(this).parent().data("id");
+    switch ($(this).parent().data("type")) {
       case "collection":
         editCollection(id);
         break;
