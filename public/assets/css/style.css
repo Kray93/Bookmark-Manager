@@ -2,6 +2,7 @@ body {
   padding: 0;
   margin: 0;
   border: 0;
+  background-image: url("/assets/imgs/bookshelf_bg.webp");
 }
 
 i.fas {
@@ -14,12 +15,15 @@ i.fas {
 
 #tagFormDiv {
   background-color: lightblue;
+  padding: 1vh;
 }
 
 #bmFormDiv {
   background-color: lightcoral;
+  padding: 1vh;
 }
 
 #collectFormDiv {
   background-color: lightgreen;
+  padding: 1vh;
 }
