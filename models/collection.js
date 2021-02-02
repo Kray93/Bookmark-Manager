@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         color: {
             type: DataTypes.ENUM,
-            values: ['white', 'black', 'red', 'blue', 'yellow', 'green', 'orange', 'purple', 'pink']
+            values: ['lightgray', 'black', 'crimson', 'royalblue', 'gold', 'mediumseagreen', 'orange', 'purple', 'palevioletred']
         }
     });
 
