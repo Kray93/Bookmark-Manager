@@ -13,6 +13,11 @@ i.fas {
   display: none;
 }
 
+#form {
+  background-color: rgb(232, 240, 254);
+  padding: 2vh;
+}
+
 #tagFormDiv {
   background-color: lightblue;
   padding: 1vh;

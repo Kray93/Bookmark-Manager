@@ -39,10 +39,8 @@ function createCollect(name, color, parent, callback) {
 function createTagForm() {
   $("#tagForm").on("submit", (event) => {
     event.preventDefault();
-    createTag(
-      $("input[name=tag]").val(),
-      $("input[name=tagcolor]").val(),
-      () => location.reload()
+    createTag($("input[name=tag]").val(), $("input[name=tagcolor]").val(), () =>
+      location.reload()
     );
   });
   $("#tagFormDiv").show();
@@ -122,7 +120,6 @@ function displayBM(data, cb) {
         console.log(err);
         if (err.status == 401) location.replace("/login");
       });
-    
   }
 }
 
@@ -137,10 +134,10 @@ function displayuncatBM(uncatBM) {
 // FIXME: function to display collection
 
 function displayCollect(displaysub) {
-  $.get("/api/collection/subcollections")
+  $.get("/api/collection/collections")
     .then(displaysub)
     .fail((err) => {
-      console.log(err);
+      // console.log(err);
       if (err.status == 401) location.replace("/login");
     });
 }
@@ -403,7 +400,7 @@ function deleteCollect() {
 //     }).then()
 //     .fail((err) => {
 //       console.log(err);
-        // if (err.status == 401) location.replace("/login");
+// if (err.status == 401) location.replace("/login");
 //     });
 // }
 
