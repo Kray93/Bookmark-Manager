@@ -225,7 +225,7 @@ function updateBM(data, cb) {
     console.log("newname");
     $.ajax({
       method: "PUT",
-      url: "/api/collections/name",
+      url: "/api/bookmarks/name",
       data: { newName: data.newName, id: data.id },
     })
       .then(cb)
@@ -261,8 +261,8 @@ function updateBM(data, cb) {
     console.log("new color");
     $.ajax({
       method: "PUT",
-      url: "/api/collections/color",
-      data: { newColor: data.color, id: [data.id] },
+      url: "/api/bookmarks/color",
+      data: { newColor: data.newColor, id: [data.id] },
     })
       .then(cb)
       .fail((err) => {
