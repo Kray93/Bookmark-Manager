@@ -1,8 +1,15 @@
 //Create Functions=========================================
 // TODO: function to create new account
 // function createNewAcc()
-// TODO: function to create tab
-// function createTab()
+// function to create tag
+
+function createTag(name, color, callback) {
+  $.post("/api/bookmarks/tags", { data: { name, color } })
+    .then(callback)
+    .fail((err) => {
+      console.log(err);
+    });
+}
 
 // function to create BM
 
@@ -22,6 +29,52 @@ function createCollect(name, color, parent, callback) {
     .fail((err) => {
       console.log(err);
     });
+}
+
+// function for create tag form
+
+function createTagForm() {
+  $("#tagEditForm").on("submit", (event) => {
+    event.preventDefault();
+    createTag(
+      $("input[name=tag]").val(),
+      $("input[name=tagcolor]").val(),
+      location.reload
+    );
+  });
+  $("#tagEditForm").show();
+}
+
+// function for create BM form
+
+function createBMForm() {
+  $("#bmEditForm").on("submit", (event) => {
+    event.preventDefault();
+    createBM(
+      $("input[name=bookmark]").val(),
+      $("input[name=bmurl]").val(),
+      $("#notes").val(), //textarea
+      $("select").material_select(), //dropdown menu
+      $("input[name=bmcolor]").val(),
+      location.reload
+    );
+  });
+  $("#bmEditForm").show();
+}
+
+// function for create collection form
+
+function createCollectionForm() {
+  $("#edit-collection").on("submit", (event) => {
+    event.preventDefault();
+    createCollection(
+      $("input[name=collection]").val(),
+      $("input[name=collectionparent]").val(),
+      $("input[name=collectioncolor]").val(),
+      location.reload
+    );
+  });
+  $("#collectEditForm").show();
 }
 
 //Display Functions========================================
@@ -85,23 +138,26 @@ function displayCollect(displaysub) {
 //Edit Functions==========================================
 // TODO: function to edit account info
 // function editAccInfo()
-// TODO: function to edit tab
+
+// function to edit tag
+
 function updateTab(id) {
-  displayTabs({ id }),
-    (tag) => {
-      $("input[name=tag]").val(tag.name);
-      $("input[name=tagcolor]").val(tag.color);
-      $("#tagEditForm").on("submit", (event) => {
-        event.preventDefault();
-        const updatedTag = { id: tag.id };
-        if (tag.name !== $("input[name=tag]").val()) {
-          updatedTag.newName = $("input[name=tag]").val();
-        }
-        if (tag.color !== $("input[name=tagcolor]").val()) {
-          updatedTag.newColor = $("input[name=tagcolor]").val();
-        }
-      });
-    };
+  displayTabs({ id }, (tag) => {
+    $("input[name=tag]").val(tag.name);
+    $("input[name=tagcolor]").val(tag.color);
+    $("#tagEditForm").on("submit", (event) => {
+      event.preventDefault();
+      const updatedTag = { id: tag.id };
+      if (tag.name !== $("input[name=tag]").val()) {
+        updatedTag.newName = $("input[name=tag]").val();
+      }
+      if (tag.color !== $("input[name=tagcolor]").val()) {
+        updatedTag.newColor = $("input[name=tagcolor]").val();
+      }
+      updateTag(updatedTag, location.reload);
+    });
+    $("#tagEditForm").show();
+  });
 }
 
 // function that creates edit page for BM
@@ -241,6 +297,33 @@ function updateCollect(data, cb) {
       method: "PUT",
       url: "/api/collections/parent",
       data: { newParent: data.parent, id: data.id },
+    })
+      .then(cb)
+      .fail((err) => {
+        console.log(err);
+      });
+  }
+}
+
+// function to update tag name and color
+
+function updateTag(data, cb) {
+  if (data.newName) {
+    $.ajax({
+      method: "PUT",
+      url: "/api/collections/name",
+      data: { newName: data.newName, id: data.id },
+    })
+      .then(cb)
+      .fail((err) => {
+        console.log(err);
+      });
+  }
+  if (data.newColor) {
+    $.ajax({
+      method: "PUT",
+      url: "/api/collections/color",
+      data: { newColor: data.color, id: data.id },
     })
       .then(cb)
       .fail((err) => {
