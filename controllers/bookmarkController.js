@@ -17,6 +17,11 @@ router.get("/", function(request, response) {
         db.Bookmark.findOne({
             where: {
                 id: request.query.id
+            },
+            include: {
+                model: db.Collection,
+                attributes: [["name", "collectionName"], ["id", "collectionID"], ["color", "collectionColor"]],
+                through: {attributes: []}
             }
         }).then( (result) => {
             response.json(result);
