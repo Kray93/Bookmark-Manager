@@ -10,7 +10,8 @@ router.get("/", async function(request, response) {
     // 1. GET ALL UNCATEGORIZED BOOKMARKS
     // Check if logged in
     if (!request.session.user) {
-        response.status(401).send("Not logged in");
+        response.redirect("/login")
+        // response.status(401).send("Not logged in");
         return;
     }
 
