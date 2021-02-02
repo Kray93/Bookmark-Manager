@@ -11,3 +11,15 @@ i.fas {
 .editForm {
   display: none;
 }
+
+#tagFormDiv {
+  background-color: lightblue;
+}
+
+#bmFormDiv {
+  background-color: lightcoral;
+}
+
+#collectFormDiv {
+  background-color: lightgreen;
+}
