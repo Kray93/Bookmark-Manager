@@ -176,6 +176,10 @@ function editBM(id) {
     $("input[name=bmcolor]").val(bm.color);
     $("input[name=bmtags]").val(bm.tags);
     $("textarea[name=bmcomment]").val(bm.comment);
+    const collectionIDs = bm.Collections.map(collection => collection.collectionID);
+    let collectionsChanged = false;
+    $("select[name=bmcollections").val(collectionIDs).formSelect().on("change", () => collectionsChanged = true);
+    console.log($("select[name=bmcollections").val());
     $("#bmForm").on("submit", (event) => {
       event.preventDefault();
       const updatedBM = { id: bm.id };
@@ -193,6 +197,9 @@ function editBM(id) {
       }
       if (bm.comment !== $("textarea[name=bmcomment]").val()) {
         updatedBM.newComment = $("textarea[name=bmcomment]").val();
+      }
+      if (collectionsChanged) {
+        updatedBM.newCollections = $("select[name=bmcollections").val();
       }
       updateBM(updatedBM, () => location.reload());
     });
@@ -273,6 +280,19 @@ function updateBM(data, cb) {
       method: "PUT",
       url: "/api/bookmarks/color",
       data: { newColor: data.newColor, id: [data.id] },
+    })
+      .then(cb)
+      .fail((err) => {
+        console.log(err);
+        if (err.status == 401) location.replace("/login");
+      });
+  }
+  if (data.newCollections) {
+    // TODO: hit addAll collections API
+    $.ajax({
+      method: "PUT",
+      url: "/api/bookmarks/collection",
+      data: { id: data.id, newCollections: data.newCollections }
     })
       .then(cb)
       .fail((err) => {
@@ -409,6 +429,8 @@ function deleteCollect() {
 
 $(() => {
   $("#menu").multilevelpushmenu({ menuWidth: "20%", preventItemClick: false });
+
+  $("select").formSelect();
 
   $(".edit").on("click", function (event) {
     event.stopPropagation();

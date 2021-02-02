@@ -20,8 +20,6 @@
 				$container = $this.parent()/* ( $this.context != undefined ) ? $this : $( 'body' ) */,
 				menu = ( options && options.menu != undefined ) ? options.menu : $this.find( 'div#menu' ),
 				clickEventType, dragEventType;
-				
-			console.log($container);
 
 			// Settings
 			var settings = $.extend({

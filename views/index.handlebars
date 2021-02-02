@@ -32,12 +32,10 @@
                     <textarea name="bmcomment" id="notes"></textarea>
                     <br>
                     <div class="input-field col s5">
-                        <select name="bookmark-options" id="options">
-                            <option value="0">{{ collection }}</option>
-                            <option value="1">{{ collection }}</option>
-                            <option value="2">{{ collection }}</option>
-                            <option value="3">{{ collection }}</option>
-                            <option value="4">{{ collection }}</option>
+                        <select name="bmcollections" id="options" multiple>
+                            {{#each collections}}
+                            {{> collectionPartial}}
+                            {{/each}}
                         </select>
                     </div>
                     <div class="input-field col s5">

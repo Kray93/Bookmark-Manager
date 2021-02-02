@@ -7,14 +7,13 @@ const { QueryTypes } = require('sequelize');
 
 router.get("/", async function(request, response) {
 
-    // 1. GET ALL UNCATEGORIZED BOOKMARKS
     // Check if logged in
     if (!request.session.user) {
         response.status(401).redirect("/login");
         // response.status(401).send("Not logged in");
         return;
     }
-
+    
     const returnObj = {};
 
     const uncategorizedBookmarks = (await db.sequelize.query(
@@ -35,8 +34,6 @@ router.get("/", async function(request, response) {
 
     // 3. FOR EACH COLLECTION, GET ALL SUB-COLLECTIONS AND BOOKMARKS
     for (let i = 0; i < topLevelCollections.length; i++) {
-        // const subCollections = await getSubcollections(topLevelCollections[i].id)
-        // console.log(subCollections);
         topLevelCollections[i].collections 
             = await getSubcollections(topLevelCollections[i].id,
                 request.session.user.id);

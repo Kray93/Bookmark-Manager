@@ -28,7 +28,7 @@ CREATE A BOOKMARK
             url: <string, must be in URL format>,
             [comment: <string>],
             [color: <color (see list of color ENUMs)>],
-            [collection: <integer, ID to add new bookmark to a collection>]
+            [collections: <ARRAY of integers, IDs of collections to add new bookmark to>]
         }
 
 EDIT A BOOKMARK'S NAME
@@ -72,20 +72,16 @@ EDIT A BOOKMARK'S COLOR
             newColor: <color: <color (see list of color ENUMs)>>
         }
 
-MOVE BOOKMARK(S) TO A DIFFERENT COLLECTION
+MOVE BOOKMARK TO DIFFERENT COLLECTIONS
     route:
         "/api/bookmarks/collection"
     method:
         "PUT",
     expected body parameters (parameters in brackets are optional):
         {
-            newCollection: <integer, ID of collection to move to>,
-            originalCollection: <integer, ID of bookmark's original collection>,
-            [id: <integer, ID of bookmark to move>]***,
-            [deleteFromOriginalCollection: <boolean>]
+            id: <bookmark to update>,
+            newCollections: <ARRAY of integers, IDs of collections to move bookmark into>
         }
-        *** - WARNING: IF A BOOKMARK ID IS NOT SPECIFIED, ***ALL*** BOOKMARKS IN 
-            THE 'ORIGINAL COLLECTION' WILL BE MOVED TO THE NEW COLLECTION
 
 DELETE SINGLE BOOKMARK
     route:
