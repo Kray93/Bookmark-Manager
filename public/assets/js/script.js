@@ -39,7 +39,7 @@ function createTagForm() {
     createTag(
       $("input[name=tag]").val(),
       $("input[name=tagcolor]").val(),
-      location.reload
+      () => location.reload()
     );
   });
   $("#tagFormDiv").show();
@@ -56,7 +56,7 @@ function createBMForm() {
       $("#notes").val(), //textarea
       $("select").material_select(), //dropdown menu
       $("input[name=bmcolor]").val(),
-      location.reload
+      () => location.reload()
     );
   });
   $("#bmFormDiv").show();
@@ -71,7 +71,7 @@ function createCollectionForm() {
       $("input[name=collection]").val(),
       $("input[name=collectionparent]").val(),
       $("input[name=collectioncolor]").val(),
-      location.reload
+      () => location.reload()
     );
   });
   $("#collectFormDiv").show();
@@ -154,7 +154,7 @@ function updateTab(id) {
       if (tag.color !== $("input[name=tagcolor]").val()) {
         updatedTag.newColor = $("input[name=tagcolor]").val();
       }
-      updateTag(updatedTag, location.reload);
+      updateTag(updatedTag, () => location.reload());
     });
     $("#tagFormDiv").show();
   });
@@ -187,7 +187,7 @@ function editBM(id) {
       if (bm.comment !== $("textarea[name=bmcomment]").val()) {
         updatedBM.newComment = $("textarea[name=bmcomment]").val();
       }
-      updateBM(updatedBM, location.reload);
+      updateBM(updatedBM, () => location.reload());
     });
     $("#bmFormDiv").show();
   });
@@ -216,7 +216,7 @@ function editCollection(id) {
       if (bm.tags !== $("input[name=bmtags]").val()) {
         updatedCollect.newParent = $("input[name=bmtags]").val();
       }
-      updateCollect(updatedCollect, location.reload);
+      updateCollect(updatedCollect, () => location.reload());
     });
     $("#collectFormDiv").show();
   });
