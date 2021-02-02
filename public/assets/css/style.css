@@ -24,6 +24,7 @@ i.fas {
 
 #username_input, #password_input {
   margin: 0.5vh;
+  padding: 0.7vh
 }
 
 #form {
