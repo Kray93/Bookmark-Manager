@@ -165,7 +165,7 @@ router.put("/url", function(request, response) {
     }
 
     db.Bookmark.update({
-        name: request.body.newURL
+        url: request.body.newURL
     }, {
         where: {
             id: request.body.id
@@ -190,7 +190,7 @@ router.put("/comment", function(request, response) {
     }
 
     db.Bookmark.update({
-        name: request.body.newComment
+        comment: request.body.newComment
     }, {
         where: {
             id: request.body.id
