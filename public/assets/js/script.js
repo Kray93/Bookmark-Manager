@@ -40,12 +40,8 @@ function createTagForm(id) {
     $("#tagEditForm").on("submit", (event) => {
       event.preventDefault();
       const createdTag = { id: tag.id };
-      if (tag.name !== $("input[name=tag]").val()) {
-        createdTag.newName = $("input[name=tag]").val();
-      }
-      if (tag.color !== $("input[name=tagcolor]").val()) {
-        createdTag.newColor = $("input[name=tagcolor]").val();
-      }
+      createdTag.newName = $("input[name=tag]").val();
+      createdTag.newColor = $("input[name=tagcolor]").val();
       createTagForm(createdTag, location.reload);
     });
     $("#tagEditForm").show();
@@ -63,18 +59,10 @@ function createBMForm(id) {
     $("#create-bookmark").on("submit", (event) => {
       event.preventDefault();
       const createdBM = { id: bm.id };
-      if (bm.name !== $("input[name=bookmark]").val()) {
-        createdBM.newName = $("input[name=bookmark]").val();
-      }
-      if (bm.url !== $("input[name=bmurl]").val()) {
-        createdBM.newURL = $("input[name=bmurl]").val();
-      }
-      if (bm.color !== $("input[name=bmcolor]").val()) {
-        createdBM.newColor = $("input[name=bmcolor]").val();
-      }
-      if (bm.tags !== $("input[name=bmtags]").val()) {
-        createdBM.newParent = $("input[name=bmtags]").val();
-      }
+      createdBM.newName = $("input[name=bookmark]").val();
+      createdBM.newURL = $("input[name=bmurl]").val();
+      createdBM.newColor = $("input[name=bmcolor]").val();
+      createdBM.newParent = $("input[name=bmtags]").val();
       createBM(createdBM, location.reload);
     });
     $("#bmEditForm").show();
@@ -92,18 +80,10 @@ function createCollectionForm(id) {
     $("#edit-collection").on("submit", (event) => {
       event.preventDefault();
       const createdCollect = { id: collection.id };
-      if (bm.name !== $("input[name=bookmark]").val()) {
-        createdCollect.newName = $("input[name=bookmark]").val();
-      }
-      if (bm.url !== $("input[name=bmurl]").val()) {
-        createdCollect.newURL = $("input[name=bmurl]").val();
-      }
-      if (bm.color !== $("input[name=bmcolor]").val()) {
-        createdCollect.newColor = $("input[name=bmcolor]").val();
-      }
-      if (bm.tags !== $("input[name=bmtags]").val()) {
-        createdCollect.newParent = $("input[name=bmtags]").val();
-      }
+      createdCollect.newName = $("input[name=bookmark]").val();
+      createdCollect.newURL = $("input[name=bmurl]").val();
+      createdCollect.newColor = $("input[name=bmcolor]").val();
+      createdCollect.newParent = $("input[name=bmtags]").val();
       createCollect(createdCollect, location.reload);
     });
     $("#collectEditForm").show();
