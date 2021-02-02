@@ -246,7 +246,7 @@ function updateBM(data, cb) {
       .fail((err) => {
         console.log(err);
       });
-  }=
+  }
   if (data.newComment) {
     $.ajax({
       method: "PUT",
