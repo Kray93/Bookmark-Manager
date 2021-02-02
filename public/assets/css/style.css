@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
 
 body {
   padding: 0;
@@ -16,22 +16,23 @@ i.fas {
 }
 
 #loginDiv {
-    background-color: burlywood;
-    padding: 3vh;
-    border: inset 16px sienna;
-    margin-top: 8vh
+  background-color: burlywood;
+  padding: 3vh;
+  border: inset 16px sienna;
+  margin-top: 8vh;
 }
 
-#username_input, #password_input {
+#username_input,
+#password_input {
   margin: 0.5vh;
-  padding: 0.7vh
+  padding: 0.7vh;
 }
 
 #form {
   margin: 1vh 0;
 }
 
-#loginTitle{
+#loginTitle {
   text-align: center;
   font-family: "Luckiest Guy", sans-serif;
 }
