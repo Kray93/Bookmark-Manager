@@ -31,14 +31,15 @@
                     <input type="text" name="bmurl">
                     <textarea name="bmcomment" id="notes"></textarea>
                     <br>
-                    <div class="input-field col s5">
+                    <div class="input-field col s6">
                         <select name="bmcollections" id="options" multiple>
                             {{#each collections}}
                             {{> collectionPartial}}
                             {{/each}}
                         </select>
+                        <label for="bmcollections">Add to Collection(s)</label>
                     </div>
-                    <div class="input-field col s5">
+                    <div class="input-field col s6">
                         <select name="color-options" id="colors">
                             <option value="0">White</option>
                             <option value="1">Black</option>
@@ -52,7 +53,7 @@
                         </select>
                     </div>
                     
-                    <input type="submit" name="bmupdate">
+                    <button type="submit" name="bmupdate" class="btn waves-effect waves-light cyan">Submit</button>
                 </form>
             </div>
 
