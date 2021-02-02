@@ -239,7 +239,8 @@ router.put("/color", function(request, response) {
     });
 });
 
-router.put("/collection/addTo", async function (request, response) {
+// Update set of collections that a single bookmark (or group of bookmarks) belongs to
+router.put("/collection", async function (request, response) {
     // Check if logged in
     if (!request.session.user) {
         response.status(401).send("Not logged in");
@@ -247,157 +248,24 @@ router.put("/collection/addTo", async function (request, response) {
     }
 
     // Expecting in body:
-    //      ids: array of bookmark IDs to add to new collection
+    //      id: bookmark ID to update
     //      newCollections: array of IDs of new target collections
-    //      deleteFromOriginalCollections: boolean, 'true' will remove 
-    //          all references to all bookmarks in all collections
 
-    var deleteResult;
-    if (request.body.deleteFromOriginalCollections) {
-        deleteResult = await db.sequelize.models.bookmark_collections.destroy({
-            where: {
-                BookmarkId: { [Op.in]: request.body.ids }
-            }
-        });
-    } else {
-        deleteResult = await db.sequelize.models.bookmark_collections.destroy({
-            where: {
-                BookmarkId: { [Op.in]: request.body.ids },
-                CollectionId: { [Op.in]: request.body.newCollections }
-            }
-        });
-    }
-
-    const addArr = [];
-    for (let i = 0; i < request.body.ids.length; i++) {
-        for (let j = 0; j < request.body.newCollections.length; j++) {
-            addArr.push({
-                BookmarkId: request.body.ids[i],
-                CollectionId: request.body.newCollections[j]
-            });
+    const deleteResult = await db.sequelize.models.bookmark_collections.destroy({
+        where: {
+            BookmarkId: request.body.id
         }
-    }
+    });
 
-    if (addArr.length > 0) {
-        const addResult = await db.sequelize.models.bookmark_collections.bulkCreate(addArr);
-        if (deleteResult) {
-            response.json([addResult, deleteResult]);
-        } else {
-            response.json(addResult);
-        }
+    const addResult = await db.sequelize.models.bookmark_collections.bulkCreate(
+        request.body.newCollections.map( e => ({ BookmarkId: request.body.id, CollectionId: e}))
+    );
+    if (deleteResult) {
+        response.json([addResult, deleteResult]);
     } else {
-        response.json("No rows updated.");
+        response.json(addResult);
     }
 });
-
-// Move bookmark(s) to a different collection
-router.put("/collection", function(request, response) {
-    // Check if logged in
-    if (!request.session.user) {
-        response.status(401).send("Not logged in");
-        return;
-    }
-
-    // Remove specified bookmark(s) from a collection without specifying a new collection
-    if (!request.body.newCollection && request.body.originalCollection) {
-        db.sequelize.models.bookmark_collections.destroy({
-            where: {
-                BookmarkId: { [ Op.in ]: result },
-                CollectionId: request.body.originalCollection
-            }
-        }).then((deleteResult) => {
-            response.json([result, result2, deleteResult]);
-        }).catch((err) => {
-            response.status(500).json(err);
-        });
-        return;
-    }
-
-    if (request.body.id) {
-        if (request.body.deleteFromOriginalCollection) {
-            if (!request.body.originalCollection) {
-                response.status(301).json("In order to delete from original collection the original collection ID must be provided.");
-                // ^CLARIFY STATUS CODE
-            }
-        }
-
-        db.Bookmark.findOne({
-            where: {
-                id: request.body.id
-            }
-        }).then( async (result) => {
-            if (request.body.deleteFromOriginalCollection) {
-                if (result.hasCollection(request.body.originalCollection)) {
-                    result.removeCollection(request.body.originalCollection);
-                }
-            }
-
-            if (await result.hasCollection(request.body.newCollection)) {
-                response.json("Already linked.")
-            } else {
-                await result.addCollection(request.body.newCollection);
-                response.json({
-                    linkedBookmarkToCollection: true,
-                    bookmark: result.dataValues.id,
-                    collection: request.body.newCollection
-                });
-            }
-        });
-    } else {
-        const newCollection = request.body.newCollection;
-
-        db.Bookmark.findAll({
-            include: [
-                {
-                    model: db.Collection,
-                    where: {
-                        id: request.body.originalCollection
-                    }
-                }
-            ]
-        }).then( (result) => {
-
-            db.sequelize.models.bookmark_collections.bulkCreate(
-                result.map( r => ({ BookmarkId: r.id, CollectionId: newCollection }) )
-            ).then( (result2) => {
-                const queryParams = {
-                    CollectionId: request.body.originalCollection
-                };
-
-                // If passed a bookmark ID, then only apply update to single bookmark
-                if (request.body.id) {
-                    queryParams.BookmarkId = request.body.id;
-                }
-
-                if (request.body.deleteFromOriginalCollection) {
-                    result.removeCollection([])
-                    db.sequelize.models.bookmark_collections.destroy({
-                        where: queryParams
-                    }).then ( (deleteResult) => {
-                        response.json( [result, result2, deleteResult] );
-                    }).catch( (err) => {
-                        response.status(500).json(err);
-                        return;
-                    });
-                } else {
-                    response.json( [result, result2] );
-                }
-
-            }).catch( (err) => {
-                response.status(500).json(err);
-                return;
-            });
-        }).catch( (err) => {
-            response.status(500).json(err);
-            return;
-        });
-    }
-
-    
-});
-
-// Remove bookmark(s) from a collection
-
 
 // Delete single bookmark
 router.delete("/:id", function(request, response) {
