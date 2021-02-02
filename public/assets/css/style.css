@@ -38,17 +38,31 @@ i.fas {
 }
 
 #tagFormDiv {
-  background-color: lightblue;
-  padding: 1vh;
+  background-color: powderblue;
+  padding: 2vh;
+  height: 360px;
+  width: 640px;
+  margin-top: 25vh;
+  border: outset 12px steelblue;
+  border-radius: 40px;
 }
 
 #bmFormDiv {
-  background-color: lightcoral;
-  padding: 1vh;
-  height: 310px;
+  background-color: mistyrose;
+  padding: 2vh;
+  height: 360px;
+  width: 640px;
+  margin-top: 25vh;
+  border: outset 12px lightcoral;
+  border-radius: 40px;
 }
 
 #collectFormDiv {
   background-color: lightgreen;
-  padding: 1vh;
+  padding: 2vh;
+  height: 360px;
+  width: 640px;
+  margin-top: 25vh;
+  border: outset 12px seagreen;
+  border-radius: 40px;
 }
