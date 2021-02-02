@@ -168,6 +168,7 @@ function editBM(id) {
     $("input[name=bmurl]").val(bm.url);
     $("input[name=bmcolor]").val(bm.color);
     $("input[name=bmtags]").val(bm.tags);
+    $("textarea[name=bmcomment]").val(bm.comment);
     $("#bmForm").on("submit", (event) => {
       event.preventDefault();
       const updatedBM = { id: bm.id };
@@ -183,7 +184,10 @@ function editBM(id) {
       if (bm.tags !== $("input[name=bmtags]").val()) {
         updatedBM.newParent = $("input[name=bmtags]").val();
       }
-      updateBM(updatedBM, console.log);
+      if (bm.comment !== $("textarea[name=bmcomment]").val()) {
+        updatedBM.newComment = $("textarea[name=bmcomment]").val();
+      }
+      updateBM(updatedBM, location.reload);
     });
     $("#bmFormDiv").show();
   });
@@ -222,7 +226,6 @@ function editCollection(id) {
 
 function updateBM(data, cb) {
   if (data.newName) {
-    console.log("newname");
     $.ajax({
       method: "PUT",
       url: "/api/bookmarks/name",
@@ -234,23 +237,21 @@ function updateBM(data, cb) {
       });
   }
   if (data.newURL) {
-    console.log("New url");
     $.ajax({
       method: "PUT",
       url: "/api/bookmarks/url",
-      data: { newURL: data.url, id: data.id },
+      data: { newURL: data.newURL, id: data.id },
     })
       .then(cb)
       .fail((err) => {
         console.log(err);
       });
-  }
+  }=
   if (data.newComment) {
-    console.log("new comment");
     $.ajax({
       method: "PUT",
       url: "/api/bookmarks/comment",
-      data: { newComment: data.comment, id: data.id },
+      data: { newComment: data.newComment, id: data.id },
     })
       .then(cb)
       .fail((err) => {
@@ -258,7 +259,6 @@ function updateBM(data, cb) {
       });
   }
   if (data.newColor) {
-    console.log("new color");
     $.ajax({
       method: "PUT",
       url: "/api/bookmarks/color",
