@@ -17,7 +17,16 @@ router.get("/", function(request, response) {
         db.Bookmark.findOne({
             where: {
                 id: request.query.id
-            }
+            },
+            include: [{
+                model: db.Collection,
+                attributes: [["name", "collectionName"], ["id", "collectionID"], ["color", "collectionColor"]],
+                through: { attributes: [] }
+            }, {
+                model: db.Tag,
+                attributes: [ ["name", "tagName"] ],
+                through: { attributes: [] }
+            }]
         }).then( (result) => {
             response.json(result);
         }).catch( (err) => {
@@ -197,7 +206,7 @@ router.put("/comment", function(request, response) {
     }
 
     db.Bookmark.update({
-        comment: request.body.comment
+        comment: request.body.newComment
     }, {
         where: {
             id: request.body.id

@@ -19,12 +19,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 1000*60*60*2 // 2 hours
+        maxAge: 1000 * 60 * 60 * 2 // 2 hours
     }
 }))
 
 app.use(express.static(__dirname + "/public"));
-app.use("/assets/d3", express.static(__dirname + "/node_modules/d3/dist"));
 app.use("/assets/materialize", express.static(__dirname + "/node_modules/materialize-css/dist"));
 app.use("/assets/jquery", express.static(__dirname + "/node_modules/jquery/dist"));
 
@@ -52,8 +51,8 @@ app.use(require('./controllers/modalRenderer'));
 
 require('./routes/api-routes')(app);
 
-db.sequelize.sync({ force: false }).then(function() {
-    app.listen(PORT, function() {
+db.sequelize.sync({ force: false }).then(function () {
+    app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT);
     });
 });
