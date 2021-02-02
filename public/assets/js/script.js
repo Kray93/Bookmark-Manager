@@ -413,6 +413,8 @@ function deleteCollect() {
 $(() => {
   $("#menu").multilevelpushmenu({ menuWidth: "20%", preventItemClick: false });
 
+  $("select").formSelect();
+
   $(".edit").on("click", function (event) {
     event.stopPropagation();
     event.preventDefault();
