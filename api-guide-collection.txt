@@ -42,7 +42,7 @@ method:
     "PUT"
 expected body parameters:
     {
-        newParent: <integer, ID of new parent collection>,
+        newParentCollection: <integer, ID of new parent collection>,
         ids: <ARRAY of integers, list of collections IDs to move to new parent>
     }
 

@@ -15,7 +15,7 @@ router.get("/", function(request, response) {
     db.Collection.findAll({
         where: {
             id: request.session.user.id,
-            ParentCollection: { [ Op.is ]: NULL }
+            ParentCollection: { [ Op.is ]: null }
         }
     }).then (function (result) {
         response.json(result);
@@ -56,7 +56,7 @@ router.post("/", function(request, response) {
         name: request.body.name,
         color: request.body.color, // NULL if no color attached
         UserId: request.session.user.id, 
-        ParentCollection: request.body.parent // NULL if not a sub-collection
+        ParentCollection: request.body.ParentCollection // NULL if not a sub-collection
     }).then( (result) => {
         response.json(result);
     }).catch( (err) => {
@@ -101,7 +101,7 @@ router.put("/parent", function(request, response) {
             id: { [ Op.in ]: request.body.ids }
         }
     }).then( (result) => {
-        response.json(result.affectedRows);
+        response.json(result);
     }).catch((err) => {
         response.status(500).json(err);
     });
