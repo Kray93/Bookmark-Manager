@@ -112,13 +112,10 @@ function displayuncatBM(uncatBM) {
 
 // FIXME: function to display collection
 
-function displayCollect(displaysub) {
-  $.get("/api/collection/collections")
-    .then(displaysub)
-    .fail((err) => {
-      // console.log(err);
-      if (err.status == 401) location.replace("/login");
-    });
+function displayCollect(data, cb) {
+  $.get(`/api/collections/id?id=${data.id}`)
+    .then(cb)
+    .fail(handleApiErr);
 }
 
 //Edit Functions==========================================
@@ -195,24 +192,21 @@ function editBM(id) {
 
 function editCollection(id) {
   displayCollect({ id }, (collection) => {
+    console.log(collection);
     $("input[name=collection]").val(collection.name);
-    $("input[name=collectionurl]").val(collection.url);
-    $("input[name=collectioncolor]").val(collection.color);
-    $("input[name=collectiontags]").val(collection.tags);
+    $("select[name=collectioncolor]").val(collection.color).formSelect();
+    $("select[name=collectionparent]").val(collection.ParentCollection).formSelect();
     $("#collectForm").on("submit", (event) => {
       event.preventDefault();
       const updatedCollect = { id: collection.id };
-      if (bm.name !== $("input[name=bookmark]").val()) {
-        updatedCollect.newName = $("input[name=bookmark]").val();
+      if (collection.name !== $("input[name=collection]").val()) {
+        updatedCollect.newName = $("input[name=collection]").val();
       }
-      if (bm.url !== $("input[name=bmurl]").val()) {
-        updatedCollect.newURL = $("input[name=bmurl]").val();
+      if (collection.color !== $("select[name=collectioncolor]").val()) {
+        updatedCollect.newColor = $("select[name=collectioncolor]").val();
       }
-      if (bm.color !== $("input[name=bmcolor]").val()) {
-        updatedCollect.newColor = $("input[name=bmcolor]").val();
-      }
-      if (bm.tags !== $("input[name=bmtags]").val()) {
-        updatedCollect.newParent = $("input[name=bmtags]").val();
+      if (collection.ParentCollection !== $("select[name=collectionparent]").val()) {
+        updatedCollect.newParentCollection = $("select[name=collectionparent]").val();
       }
       updateCollect(updatedCollect, () => location.reload());
     });
@@ -287,16 +281,16 @@ function updateCollect(data, cb) {
     $.ajax({
       method: "PUT",
       url: "/api/collections/color",
-      data: { newColor: data.color, id: data.id },
+      data: { newColor: data.newColor, id: data.id },
     })
       .then(cb)
       .fail(handleApiErr);
   }
-  if (data.newParent) {
+  if (data.newParentCollection) {
     $.ajax({
       method: "PUT",
       url: "/api/collections/parent",
-      data: { newParent: data.parent, id: data.id },
+      data: { newParentCollection: data.newParentCollection, id: data.id },
     })
       .then(cb)
       .fail(handleApiErr);
