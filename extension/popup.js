@@ -1,8 +1,4 @@
-window.addEventListener("load", () => {
-    chrome.windows.getCurrent({populate:true}, window => {
-        const activeTab = window.tabs.filter(tab => tab.active)[0];
-        console.log(activeTab);
-        document.getElementById("url_input").value = activeTab.url;
-        document.getElementById("name_input").value = activeTab.title;
-    })
+chrome.windows.getCurrent({ populate: true }, ({ tabs }) => {
+    const activeTab = tabs.filter(tab => tab.active)[0];
+    window.open(`http://localhost:8080/?name=${encodeURIComponent(activeTab.title)}&url=${encodeURIComponent(activeTab.url)}`, "_blank");
 });
