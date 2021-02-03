@@ -25,7 +25,7 @@ router.get("/", async function(request, response) {
         'SELECT `id`, `name`, `url`, `color` FROM Bookmarks ' +
         'LEFT JOIN bookmark_collections ON bookmark_collections.BookmarkId = Bookmarks.id ' +
         'WHERE bookmark_collections.BookmarkId IS NULL ' + 
-        'AND bookmark.UserId = ' + request.session.user.id, { type: QueryTypes.SELECT }));
+        'AND Bookmark.UserId = ' + request.session.user.id, { type: QueryTypes.SELECT }));
 
     returnObj.bookmarks = uncategorizedBookmarks;
 
