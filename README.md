@@ -19,6 +19,15 @@ This program allows one to keep all their bookmarks nicely organized to their he
 
 ## Installation
 
+### Extension
+
+1. Open the [chrome extension manager page](chrome://extensions)
+2. Enable developer mode
+3. Click on `Load unpacked` and select the `extension` directory in this repository
+4. Select the extensions (puzzle piece) icon in the top right of your browser and pin bookmark manager
+
+### Web Server
+
 1. Open integrated terminal or enter the following into your console
 2. Run `"npm i"`
 3. Create a database

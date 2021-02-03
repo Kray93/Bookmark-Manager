@@ -159,7 +159,6 @@ function editBM(id) {
       .val(collectionIDs)
       .formSelect()
       .on("change", () => (collectionsChanged = true));
-    console.log($("select[name=bmcollections").val());
     $("#bmForm").on("submit", (event) => {
       event.preventDefault();
       const updatedBM = { id: bm.id };
@@ -191,9 +190,9 @@ function editBM(id) {
 
 function editCollection(id) {
   displayCollect({ id }, (collection) => {
-    console.log(collection);
     $("input[name=collection]").val(collection.name);
     $("select[name=collectioncolor]").val(collection.color).formSelect();
+    $(`select[name=collectionparent] option[value=${id}]`).attr("disabled", true);
     $("select[name=collectionparent]").val(collection.ParentCollection).formSelect();
     $("#collectForm").on("submit", (event) => {
       event.preventDefault();
