@@ -73,9 +73,7 @@ function createCollectionForm() {
 // FIXME: function to display everything in a tab
 
 function displayTabs(call) {
-  $.get("/api/collections")
-    .then(call)
-    .fail(handleApiErr);
+  $.get("/api/collections").then(call).fail(handleApiErr);
 }
 
 // function to display BM
@@ -99,9 +97,7 @@ function displayBM(data, cb) {
     if (data.tag) {
       url += `tag=${data.tag}`;
     }
-    $.get(url)
-      .then(cb)
-      .fail(handleApiErr);
+    $.get(url).then(cb).fail(handleApiErr);
   }
 }
 
@@ -158,9 +154,14 @@ function editBM(id) {
     $("select[name=bmcolor]").val(bm.color).formSelect();
     $("input[name=bmtags]").val(bm.tags);
     $("textarea[name=bmcomment]").val(bm.comment);
-    const collectionIDs = bm.Collections.map(collection => collection.collectionID);
+    const collectionIDs = bm.Collections.map(
+      (collection) => collection.collectionID
+    );
     let collectionsChanged = false;
-    $("select[name=bmcollections").val(collectionIDs).formSelect().on("change", () => collectionsChanged = true);
+    $("select[name=bmcollections")
+      .val(collectionIDs)
+      .formSelect()
+      .on("change", () => (collectionsChanged = true));
     console.log($("select[name=bmcollections").val());
     $("#bmForm").on("submit", (event) => {
       event.preventDefault();
@@ -262,7 +263,7 @@ function updateBM(data, cb) {
     $.ajax({
       method: "PUT",
       url: "/api/bookmarks/collection",
-      data: { id: data.id, newCollections: data.newCollections }
+      data: { id: data.id, newCollections: data.newCollections },
     })
       .then(cb)
       .fail(handleApiErr);
@@ -379,7 +380,18 @@ function handleApiErr(err) {
 }
 
 $(() => {
-  $("#menu").multilevelpushmenu({ menuWidth: "20%", preventItemClick: false });
+  let menuWidth;
+  if (window.innerWidth <= 600) {
+    menuWidth = "100%";
+  } else if (window.innerWidth <= 992) {
+    menuWidth = "50%";
+  } else if (window.innerWidth <= 1200) {
+    menuWidth = "35%";
+  } else {
+    menuWidth = "20%";
+  }
+  $(window).innerWidth();
+  $("#menu").multilevelpushmenu({ menuWidth, preventItemClick: false });
 
   $("select").formSelect();
 

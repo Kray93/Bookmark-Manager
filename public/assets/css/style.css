@@ -4,14 +4,6 @@ body {
   padding: 0;
   margin: 0;
   border: 0;
-  /* making the font size responsive */
-  font-size: calc(
-    [minimum size] + ([maximum size] - [minimum size]) *
-      (
-        (100vw - [minimum viewport width]) /
-          ([maximum viewport width] - [minimum viewport width])
-      )
-  );
   background-image: url("/assets/imgs/bookshelf_bg.webp");
 }
 
