@@ -1,7 +1,7 @@
 <script src="/assets/js/script.js"></script>
 {{!-- TODO: Menu, tabs, and BM's, Modals --}}
 <div style="display: inline;">
-    <div id="menu" style="z-index: -1;">
+    <div id="menu">
         <h2><i class="fa fa-reorder"></i>My Bookmarks</h2>
         <ul>
             {{#each collections}}
@@ -29,9 +29,18 @@
 
             <div id="bmFormDiv" class="editForm">
                 <form id="bmForm">
-                    <input type="text" name="bookmark" value="{{newBookmarkName}}">
-                    <input type="text" name="bmurl" value="{{newBookmarkURL}}">
-                    <textarea name="bmcomment" id="notes"></textarea>
+                    <div class="input-field col s12">
+                        <input type="text" name="bookmark" value="{{newBookmarkName}}">
+                        <label for="bookmark">Name</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input type="text" name="bmurl" value="{{newBookmarkURL}}">
+                        <label for="bmurl">URL</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea name="bmcomment" id="notes" class="materialize-textarea"></textarea>
+                        <label for="bmcomment">Notes</label>
+                    </div>
                     <br>
                     <div class="input-field col s6">
                         <select name="bmcollections" id="options" multiple>
@@ -39,7 +48,7 @@
                             {{> collectionPartial}}
                             {{/each}}
                         </select>
-                        <label for="bmcollections">Add to Collection(s)</label>
+                        <label for="bmcollections">Add to Folder(s)</label>
                     </div>
                     <div class="input-field col s6">
                         <select name="bmcolor" id="colors">
@@ -53,15 +62,20 @@
                             <option value="purple">Purple</option>
                             <option value="palevioletred">Pink</option>
                         </select>
+                        <label for="bmcolor">Color</label>
                     </div>
 
                     <button type="submit" name="bmupdate" class="btn waves-effect waves-light cyan">Submit</button>
+                    <button type="button" name="bmclose" class="btn waves-effect waves-light red darken-1">Cancel</button>
                 </form>
             </div>
 
             <div id="collectFormDiv" class="editForm">
                 <form id="collectForm">
+                    <div class="input-field col s12">
                     <input type="text" name="collection">
+                    <label for="collection">Name</label>
+                    </div>
                     <div class="input-field col s6">
                         <select name="collectioncolor" id="colors">
                             <option value="lightgray">White</option>
@@ -74,6 +88,7 @@
                             <option value="purple">Purple</option>
                             <option value="palevioletred">Pink</option>
                         </select>
+                        <label for="collectioncolor">Color</label>
                     </div>
                     <div class="input-field col s6">
                         <select name="collectionparent" id="options">
@@ -82,8 +97,10 @@
                             {{> collectionPartial}}
                             {{/each}}
                         </select>
+                        <label for="collectionparent">Parent Folder</label>
                     </div>
                     <button type="submit" class="btn waves-effect waves-light cyan">Submit</button>
+                    <button type="button" name="collectionclose" class="btn waves-effect waves-light red darken-1">Cancel</button>
                 </form>
             </div>
         </div>

@@ -50,8 +50,6 @@ i.fas {
 #bmFormDiv {
   background-color: mistyrose;
   padding: 2vh;
-  height: 360px;
-  width: 640px;
   margin-top: 25vh;
   border: outset 12px lightcoral;
   border-radius: 40px;
@@ -60,8 +58,6 @@ i.fas {
 #collectFormDiv {
   background-color: lightgreen;
   padding: 2vh;
-  height: 360px;
-  width: 640px;
   margin-top: 25vh;
   border: outset 12px seagreen;
   border-radius: 40px;
