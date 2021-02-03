@@ -1,0 +1,14 @@
+<li style="background-color: {{color}};" data-color="{{color}}">
+    <a href="#" data-type="collection" data-id="{{id}}" style="color:{{colorsHelper color}};"><i class="fas fa-trash delete"></i><i class="fas fa-edit edit"></i>{{name}}</a>
+    <h2>{{name}}</h2>
+    <ul>
+        {{#each collections}}
+        {{> menuPartial}}
+        {{/each}}
+        {{#each bookmarks}}
+        {{> menuBookmarkPartial}}
+        {{/each}}
+        <li><a href="#" data-id="{{id}}" data-type="collection" class="add"><i class="fas fa-plus"></i>Add a folder</a></li>
+        <li><a href="#" data-id="{{id}}" data-type="bookmark" class="add"><i class="fas fa-plus"></i>Add a bookmark</a></li>
+    </ul>
+</li>
