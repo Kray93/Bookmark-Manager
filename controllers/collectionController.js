@@ -68,12 +68,12 @@ router.post("/", function(request, response) {
         response.status(401).send("Not logged in");
         return;
     }
-    
+    console.log(`\n\nparent: ${typeof request.body.ParentCollection}\n\n`);
     db.Collection.create({
         name: request.body.name,
         color: request.body.color, // NULL if no color attached
         UserId: request.session.user.id, 
-        ParentCollection: request.body.ParentCollection != "null" ? request.body.ParentCollection : null // NULL if not a sub-collection
+        ParentCollection: request.body.ParentCollection != "null" && request.body.ParentCollection != "" ? request.body.ParentCollection : null // NULL if not a sub-collection
     }).then( (result) => {
         response.json(result);
     }).catch( (err) => {
