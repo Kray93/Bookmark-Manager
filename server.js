@@ -37,7 +37,10 @@ app.use(
 // Set Handlebars.
 var exphbs = require("express-handlebars");
 
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.engine(
+  "handlebars",
+  exphbs({ defaultLayout: "main", helpers: require("./helpers/colorshelper") })
+);
 app.set("view engine", "handlebars");
 
 // Controllers
