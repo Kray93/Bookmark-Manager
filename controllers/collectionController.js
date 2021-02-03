@@ -136,7 +136,7 @@ router.put("/color", function(request, response) {
         color: request.body.newColor
     }, {
         where: {
-            id: { [ Op.in ]: request.body.ids}
+            id: request.body.id
         }
     }).then( (result) => {
         response.json(result);
