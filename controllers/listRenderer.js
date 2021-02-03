@@ -10,7 +10,6 @@ router.get("/", async function(request, response) {
     // Check if logged in
     if (!request.session.user) {
         response.status(401).redirect("/login");
-        // response.status(401).send("Not logged in");
         return;
     }
     
@@ -25,7 +24,8 @@ router.get("/", async function(request, response) {
     const uncategorizedBookmarks = (await db.sequelize.query(
         'SELECT `id`, `name`, `url`, `color` FROM Bookmarks ' +
         'LEFT JOIN bookmark_collections ON bookmark_collections.BookmarkId = Bookmarks.id ' +
-        'WHERE bookmark_collections.BookmarkId IS NULL', { type: QueryTypes.SELECT }));
+        'WHERE bookmark_collections.BookmarkId IS NULL ' + 
+        'AND bookmark.UserId = ' + request.session.user.id, { type: QueryTypes.SELECT }));
 
     returnObj.bookmarks = uncategorizedBookmarks;
 
