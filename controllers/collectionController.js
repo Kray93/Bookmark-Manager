@@ -73,7 +73,7 @@ router.post("/", function(request, response) {
         name: request.body.name,
         color: request.body.color, // NULL if no color attached
         UserId: request.session.user.id, 
-        ParentCollection: request.body.ParentCollection // NULL if not a sub-collection
+        ParentCollection: request.body.newParentCollection != "null" ? request.body.newParentCollection : null // NULL if not a sub-collection
     }).then( (result) => {
         response.json(result);
     }).catch( (err) => {
