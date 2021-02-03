@@ -1,7 +1,7 @@
 <script src="/assets/js/script.js"></script>
 {{!-- TODO: Menu, tabs, and BM's, Modals --}}
 <div style="display: inline;">
-    <div id="menu" style="z-index: -1;">
+    <div id="menu">
         <h2><i class="fa fa-reorder"></i>My Bookmarks</h2>
         <ul>
             {{#each collections}}
@@ -66,6 +66,7 @@
                     </div>
 
                     <button type="submit" name="bmupdate" class="btn waves-effect waves-light cyan">Submit</button>
+                    <button type="button" name="bmclose" class="btn waves-effect waves-light red darken-1">Cancel</button>
                 </form>
             </div>
 
@@ -99,6 +100,7 @@
                         <label for="collectionparent">Parent Folder</label>
                     </div>
                     <button type="submit" class="btn waves-effect waves-light cyan">Submit</button>
+                    <button type="button" name="collectionclose" class="btn waves-effect waves-light red darken-1">Cancel</button>
                 </form>
             </div>
         </div>
