@@ -16,6 +16,12 @@ router.get("/", async function(request, response) {
     
     const returnObj = {};
 
+    // query paramaters should always have name and url if you are trying to create a new bookmark
+    if (request.query.name && request.query.url) {
+        returnObj.newBookmarkName = request.query.name;
+        returnObj.newBookmarkURL = request.query.url;
+    }
+
     const uncategorizedBookmarks = (await db.sequelize.query(
         'SELECT `id`, `name`, `url`, `color` FROM Bookmarks ' +
         'LEFT JOIN bookmark_collections ON bookmark_collections.BookmarkId = Bookmarks.id ' +
