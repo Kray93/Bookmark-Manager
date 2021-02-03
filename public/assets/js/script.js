@@ -19,8 +19,8 @@ function createBM(name, url, comment, color, collections, callback) {
 
 // function to create collection
 
-function createCollect(name, color, parent, callback) {
-  $.post("/api/collections/", { name, color, parent })
+function createCollect(name, color, ParentCollection, callback) {
+  $.post("/api/collections/", { name, color, ParentCollection })
     .then(callback)
     .fail(handleApiErr);
 }
@@ -57,13 +57,14 @@ function createBMForm(parentId) {
 
 // function for create collection form
 
-function createCollectionForm() {
+function createCollectionForm(parentId) {
+  $("select[name=collectionparent]").val(parentId).formSelect();
   $("#collectForm").on("submit", (event) => {
     event.preventDefault();
-    createCollection(
+    createCollect(
       $("input[name=collection]").val(),
-      $("input[name=collectionparent]").val(),
-      $("input[name=collectioncolor]").val(),
+      $("select[name=collectioncolor]").val(),
+      $("select[name=collectionparent]").val(),
       () => location.reload()
     );
   });
