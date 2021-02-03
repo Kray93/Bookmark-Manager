@@ -112,6 +112,6 @@ Questions on how it works? Take a look at our GitHub(s)
 Or if you have a suggestion/question, send us an email!
 
 - [John](mailto:john.d.jake@gmail.com)
-- [Mark](mailto:markt@uw.edu)
+- [Mark](mailto:markt4@uw.edu)
 - [Kevin](mailto:kevinwillig@gmail.com)
 - [Zach](mailto:zdspringer99@gmail.com)
