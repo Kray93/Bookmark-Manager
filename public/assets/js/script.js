@@ -4,15 +4,15 @@
 // function to create tag
 
 function createTag(name, color, callback) {
-  $.post("/api/bookmarks/tags", { data: { name, color } })
+  $.post("/api/bookmarks/tags", { name, color })
     .then(callback)
     .fail(handleApiErr);
 }
 
 // function to create BM
 
-function createBM(name, url, comment, color, collection, callback) {
-  $.post("/api/bookmarks", { data: { name, url, comment, color, collection } })
+function createBM(name, url, comment, color, collections, callback) {
+  $.post("/api/bookmarks", { name, url, comment, color, collections })
     .then(callback)
     .fail(handleApiErr);
 }
@@ -20,7 +20,7 @@ function createBM(name, url, comment, color, collection, callback) {
 // function to create collection
 
 function createCollect(name, color, parent, callback) {
-  $.post("/api/collections/", { data: { name, color, parent } })
+  $.post("/api/collections/", { name, color, parent })
     .then(callback)
     .fail(handleApiErr);
 }
@@ -39,15 +39,16 @@ function createTagForm() {
 
 // function for create BM form
 
-function createBMForm() {
+function createBMForm(parentId) {
+  $("select[name=bmcollections]").val([parentId]).formSelect();
   $("#bmForm").on("submit", (event) => {
     event.preventDefault();
     createBM(
       $("input[name=bookmark]").val(),
       $("input[name=bmurl]").val(),
-      $("#notes").val(), //textarea
-      $("select").material_select(), //dropdown menu
-      $("input[name=bmcolor]").val(),
+      $("textarea[name=bmcomment]").val(), //textarea
+      $("select[name=bmcolor]").val(),
+      $("select[name=bmcollections]").val(), //dropdown menu
       () => location.reload()
     );
   });
@@ -408,4 +409,10 @@ $(() => {
         break;
     }
   });
+
+  $(".add").on("click", function (event) {
+    event.stopPropagation();
+    event.preventDefault();
+    createBMForm($(this).data("id"));
+  })
 });
