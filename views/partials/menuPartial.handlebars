@@ -8,5 +8,7 @@
         {{#each bookmarks}}
         {{> menuBookmarkPartial}}
         {{/each}}
+        <li><a href="#" data-id="{{id}}" data-type="collection" class="add"><i class="fas fa-plus"></i>Add a folder</a></li>
+        <li><a href="#" data-id="{{id}}" data-type="bookmark" class="add"><i class="fas fa-plus"></i>Add a bookmark</a></li>
     </ul>
 </li>

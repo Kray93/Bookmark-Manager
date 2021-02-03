@@ -10,6 +10,8 @@
             {{#each bookmarks}}
             {{> menuBookmarkPartial}}
             {{/each}}
+            <li><a href="#" data-id="null" data-type="collection" class="add"><i class="fas fa-plus"></i>Add a
+                    folder</a></li>
         </ul>
     </div>
 </div>
@@ -52,7 +54,7 @@
                             <option value="palevioletred">Pink</option>
                         </select>
                     </div>
-                    
+
                     <button type="submit" name="bmupdate" class="btn waves-effect waves-light cyan">Submit</button>
                 </form>
             </div>
@@ -60,19 +62,40 @@
             <div id="collectFormDiv" class="editForm">
                 <form id="collectForm">
                     <input type="text" name="collection">
-                    <input type="text" name="collectioncolor">
-                    <div class="input-field col s5" name="collectionparent">
-                        <select name="bookmark-options" id="options">
-                            <option value="0">{{ tag }}</option>
-                            <option value="1">{{ tag }}</option>
-                            <option value="2">{{ tag }}</option>
-                            <option value="3">{{ tag }}</option>
-                            <option value="4">{{ tag }}</option>
+                    <div class="input-field col s6">
+                        <select name="collectioncolor" id="colors">
+                            <option value="lightgray">White</option>
+                            <option value="black">Black</option>
+                            <option value="crimson">Red</option>
+                            <option value="royalblue">Blue</option>
+                            <option value="gold">Yellow</option>
+                            <option value="mediumseagreen">Green</option>
+                            <option value="orange">Orange</option>
+                            <option value="purple">Purple</option>
+                            <option value="palevioletred">Pink</option>
                         </select>
                     </div>
-                    <input type="submit" name="collectionupdate">
+                    <div class="input-field col s6">
+                        <select name="collectionparent" id="options">
+                            <option value="null">No Parent</option>
+                            {{#each collections}}
+                            {{> collectionPartial}}
+                            {{/each}}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn waves-effect waves-light cyan">Submit</button>
                 </form>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal" id="confirm-delete-modal">
+    <div class="modal-content">
+        <h3>Are you sure you want to delete that?</h3>
+    </div>
+    <div class="modal-footer">
+        <button id="confirm-delete" class="waves-effect waves-light btn red">Yes</button>
+        <button id="cancel-delete" class="modal-close btn green waves-effect waves-light">No</button>
     </div>
 </div>

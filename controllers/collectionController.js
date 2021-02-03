@@ -11,7 +11,7 @@ router.get("/", function(request, response) {
         response.status(401).send("Not logged in");
         return;
     }
-
+// id is the collection id, should be using UserId. this route is broken
     db.Collection.findAll({
         where: {
             id: request.session.user.id,
@@ -22,6 +22,23 @@ router.get("/", function(request, response) {
     }).catch ( (err) => {
         response.status(500).json(err);
     });
+});
+
+// Get a collection by id
+router.get("/id", function(request, response) {
+    // Check if logged in
+    if (!request.session.user) {
+        response.status(401).send("Not logged in");
+        return;
+    }
+
+    db.Collection.findOne({
+        where: {
+            id: request.query.id
+        }
+    }).then(function(result) {
+        response.json(result);
+    }).catch(err => response.status(500).json(err));
 });
 
 // Get all sub-collections in a selected collection
@@ -80,7 +97,7 @@ router.put("/name", function(request, response) {
             id: request.body.id
         }
     }).then( (result) => {
-        response.json(result.affectedRows);
+        response.json(result);
     }).catch( (err) => {
         response.status(500).json(err);
     });
@@ -95,10 +112,10 @@ router.put("/parent", function(request, response) {
     }
 
     db.Collection.update({
-        ParentCollection: request.body.newParentCollection
+        ParentCollection: request.body.newParentCollection != "null" ? request.body.newParentCollection : null
     }, {
         where: {
-            id: { [ Op.in ]: request.body.ids }
+            id: request.body.id
         }
     }).then( (result) => {
         response.json(result);
@@ -119,10 +136,10 @@ router.put("/color", function(request, response) {
         color: request.body.newColor
     }, {
         where: {
-            id: { [ Op.in ]: request.body.ids}
+            id: request.body.id
         }
     }).then( (result) => {
-        response.json(result.affectedRows);
+        response.json(result);
     }).catch((err) => {
         response.status(500).json(err);
     });
