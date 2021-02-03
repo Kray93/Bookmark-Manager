@@ -332,12 +332,18 @@ function updateTag(data, cb) {
 
 // function to delete single BM
 
-function deleteBM() {
+function confirmDeleteBM(id) {
+  $("button#confirm-delete").off();
+  $("button#confirm-delete").on("click", () => deleteBM(id));
+  $("#confirm-delete-modal").modal("open");
+}
+
+function deleteBM(id) {
   $.ajax({
     method: "DELETE",
-    url: "/api/bookmarks/:id",
+    url: `/api/bookmarks/${id}`,
   })
-    .then()
+    .then(() => location.reload())
     .fail(handleApiErr);
 }
 
@@ -396,6 +402,8 @@ $(() => {
 
   $("select").formSelect();
 
+  $(".modal").modal();
+
   $(".edit").on("click", function (event) {
     event.stopPropagation();
     event.preventDefault();
@@ -410,9 +418,31 @@ $(() => {
     }
   });
 
+  $(".delete").on("click", function (event) {
+    event.stopPropagation();
+    event.preventDefault();
+    const id = $(this).parent().data("id");
+    switch ($(this).parent().data("type")) {
+      case "collection":
+        editCollection(id);
+        break;
+      case "bookmark":
+        confirmDeleteBM(id);
+        break;
+    }
+  });
+
   $(".add").on("click", function (event) {
     event.stopPropagation();
     event.preventDefault();
-    createBMForm($(this).data("id"));
+    const id = $(this).data("id");
+    switch ($(this).data("type")) {
+      case "collection":
+        createCollectionForm(id);
+        break;
+      case "bookmark":
+        createBMForm(id);
+        break;
+    }
   })
 });
