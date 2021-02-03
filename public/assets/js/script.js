@@ -1,6 +1,4 @@
 //Create Functions=========================================
-// TODO: function to create new account
-// function createNewAcc()
 // function to create tag
 
 function createTag(name, color, callback) {
@@ -70,7 +68,7 @@ function createCollectionForm() {
 }
 
 //Display Functions========================================
-// FIXME: function to display everything in a tab
+// function to display everything in a tab
 
 function displayTabs(call) {
   $.get("/api/collections").then(call).fail(handleApiErr);
@@ -109,7 +107,7 @@ function displayuncatBM(uncatBM) {
     });
 }
 
-// FIXME: function to display collection
+// function to display collection
 
 function displayCollect(displaysub) {
   $.get("/api/collection/collections")
@@ -121,8 +119,6 @@ function displayCollect(displaysub) {
 }
 
 //Edit Functions==========================================
-// TODO: function to edit account info
-// function editAccInfo()
 
 // function to edit tag
 
@@ -259,7 +255,6 @@ function updateBM(data, cb) {
       .fail(handleApiErr);
   }
   if (data.newCollections) {
-    // TODO: hit addAll collections API
     $.ajax({
       method: "PUT",
       url: "/api/bookmarks/collection",
@@ -326,8 +321,6 @@ function updateTag(data, cb) {
 }
 
 //Delete Functions=======================================
-// TODO: function to delete tab
-// function deleteTab()
 
 // function to delete single BM
 
@@ -350,29 +343,6 @@ function deleteCollect() {
     .then()
     .fail(handleApiErr);
 }
-
-//Move Functions============================================
-// TODO: function to move a bm from one collection to another
-
-// function moveBM(newCollection, originalCollection, id, deleteFromOriginalCollection){
-//     $.ajax({
-//         method: "PUT",
-//         url: "/api/bookmarks/collection",
-//         data: {
-//             newCollection: ,
-//             originalCollection: ,
-//             id: ,
-//             deleteFromOriginalCollection:
-//          }
-//     }).then()
-//     .fail((err) => {
-//       console.log(err);
-// if (err.status == 401) location.replace("/login");
-//     });
-// }
-
-// TODO: set up click event handlers for links to get subcollections
-// TODO: create next menu for those
 
 function handleApiErr(err) {
   console.error(err);
