@@ -149,7 +149,6 @@ function editBM(id) {
     $("input[name=bookmark]").val(bm.name);
     $("input[name=bmurl]").val(bm.url);
     $("select[name=bmcolor]").val(bm.color).formSelect();
-    $("input[name=bmtags]").val(bm.tags);
     $("textarea[name=bmcomment]").val(bm.comment);
     const collectionIDs = bm.Collections.map(
       (collection) => collection.collectionID
@@ -171,9 +170,6 @@ function editBM(id) {
       if (bm.color !== $("select[name=bmcolor]").val()) {
         updatedBM.newColor = $("select[name=bmcolor]").val();
       }
-      if (bm.tags !== $("input[name=bmtags]").val()) {
-        updatedBM.newParent = $("input[name=bmtags]").val();
-      }
       if (bm.comment !== $("textarea[name=bmcomment]").val()) {
         updatedBM.newComment = $("textarea[name=bmcomment]").val();
       }
@@ -182,6 +178,7 @@ function editBM(id) {
       }
       updateBM(updatedBM, () => location.replace("/"));
     });
+    M.updateTextFields();
     $("#bmFormDiv").show();
   });
 }
@@ -208,6 +205,7 @@ function editCollection(id) {
       }
       updateCollect(updatedCollect, () => location.replace("/"));
     });
+    M.updateTextFields();
     $("#collectFormDiv").show();
   });
 }
@@ -379,6 +377,26 @@ $(() => {
   if ($("input[name=bookmark]").val() && $("input[name=bmurl]").val()) {
     createBMForm(null, $("input[name=bookmark]").val(), $("input[name=bmurl]").val());
   }
+
+  $("button[name=bmclose]").on("click", function(event) {
+    $("form#bmForm").off();
+    $("div#bmFormDiv").hide();
+    $("input[name=bookmark]").val("");
+    $("input[name=bmurl]").val("");
+    $("select[name=bmcolor]").val("lightgray").formSelect();
+    $("textarea[name=bmcomment]").val("");
+    M.updateTextFields();
+  });
+
+  $("button[name=collectionclose]").on("click", function(event) {
+    $("form#collectForm").off();
+    $("div#collectFormDiv").hide();
+    $("input[name=collection]").val("");
+    $("select[name=collectioncolor]").val("lightgray").formSelect();
+    $(`select[name=collectionparent] option`).attr("disabled", false);
+    $("select[name=collectionparent]").val("null").formSelect();
+    M.updateTextFields();
+  })
   
   $(".edit").on("click", function (event) {
     event.stopPropagation();
