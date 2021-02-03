@@ -112,7 +112,7 @@ router.put("/parent", function(request, response) {
     }
 
     db.Collection.update({
-        ParentCollection: request.body.newParentCollection
+        ParentCollection: request.body.newParentCollection != "null" ? request.body.newParentCollection : null
     }, {
         where: {
             id: request.body.id
