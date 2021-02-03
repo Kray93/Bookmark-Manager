@@ -1,37 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookmark Manager</title>
-    <link rel="stylesheet" href="materialize.min.css">
     <script src="popup.js"></script>
 </head>
-
-<body style="width: 500px;padding: 20px;">
-    <h5>Add bookmark</h5>
-    <form action="localhost:8080/api/bookmarks" method="post">
-        <div class="row">
-            <div class="input-field col s12">
-                <input type="url" name="url" id="url_input">
-                <label for="url" class="active">Page URL</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <input type="text" name="name" id="name_input">
-                <label for="name" class="active">Page name</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <label for="comment" class="active">Comment</label>
-                <textarea name="comment" id="comment_textarea" class="materialize-textarea"></textarea>
-            </div>
-        </div>
-        <button type="submit" class="waves-effect waves-light btn pink">Add</button>
-    </form>
-</body>
-
 </html>

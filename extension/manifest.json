@@ -1,9 +1,9 @@
 {
     "name": "Bookmark Manager",
     "version": "1.0",
-    "manifest_version": 3,
+    "manifest_version": 2,
     "description": "Really good bookmark manager",
-    "action": {
+    "browser_action": {
         "default_popup": "popup.html"
     },
     "permissions": ["tabs"]

@@ -29,7 +29,7 @@ function createTagForm() {
   $("#tagForm").on("submit", (event) => {
     event.preventDefault();
     createTag($("input[name=tag]").val(), $("input[name=tagcolor]").val(), () =>
-      location.reload()
+      location.replace("/")
     );
   });
   $("#tagFormDiv").show();
@@ -37,8 +37,10 @@ function createTagForm() {
 
 // function for create BM form
 
-function createBMForm(parentId) {
+function createBMForm(parentId, name, url) {
   $("select[name=bmcollections]").val([parentId]).formSelect();
+  $("input[name=bookmark]").val(name);
+  $("input[name=bmurl]").val(url);
   $("#bmForm").on("submit", (event) => {
     event.preventDefault();
     createBM(
@@ -47,7 +49,7 @@ function createBMForm(parentId) {
       $("textarea[name=bmcomment]").val(), //textarea
       $("select[name=bmcolor]").val(),
       $("select[name=bmcollections]").val(), //dropdown menu
-      () => location.reload()
+      () => location.replace("/")
     );
   });
   $("#bmFormDiv").show();
@@ -63,7 +65,7 @@ function createCollectionForm(parentId) {
       $("input[name=collection]").val(),
       $("select[name=collectioncolor]").val(),
       $("select[name=collectionparent]").val(),
-      () => location.reload()
+      () => location.replace("/")
     );
   });
   $("#collectFormDiv").show();
@@ -134,7 +136,7 @@ function updateTab(id) {
       if (tag.color !== $("input[name=tagcolor]").val()) {
         updatedTag.newColor = $("input[name=tagcolor]").val();
       }
-      updateTag(updatedTag, () => location.reload());
+      updateTag(updatedTag, () => location.replace("/"));
     });
     $("#tagFormDiv").show();
   });
@@ -179,7 +181,7 @@ function editBM(id) {
       if (collectionsChanged) {
         updatedBM.newCollections = $("select[name=bmcollections").val();
       }
-      updateBM(updatedBM, () => location.reload());
+      updateBM(updatedBM, () => location.replace("/"));
     });
     $("#bmFormDiv").show();
   });
@@ -205,7 +207,7 @@ function editCollection(id) {
       if (collection.ParentCollection !== $("select[name=collectionparent]").val()) {
         updatedCollect.newParentCollection = $("select[name=collectionparent]").val();
       }
-      updateCollect(updatedCollect, () => location.reload());
+      updateCollect(updatedCollect, () => location.replace("/"));
     });
     $("#collectFormDiv").show();
   });
@@ -331,7 +333,7 @@ function deleteBM(id) {
     method: "DELETE",
     url: `/api/bookmarks/${id}`,
   })
-    .then(() => location.reload())
+    .then(() => location.replace("/"))
     .fail(handleApiErr);
 }
 
@@ -348,7 +350,7 @@ function deleteCollect(id) {
     method: "DELETE",
     url: `/api/collections/${id}`,
   })
-    .then(() => location.reload())
+    .then(() => location.replace("/"))
     .fail(handleApiErr);
 }
 
@@ -370,11 +372,15 @@ $(() => {
   }
   $(window).innerWidth();
   $("#menu").multilevelpushmenu({ menuWidth, preventItemClick: false });
-
+  
   $("select").formSelect();
-
+  
   $(".modal").modal();
-
+  
+  if ($("input[name=bookmark]").val() && $("input[name=bmurl]").val()) {
+    createBMForm(null, $("input[name=bookmark]").val(), $("input[name=bmurl]").val());
+  }
+  
   $(".edit").on("click", function (event) {
     event.stopPropagation();
     event.preventDefault();
