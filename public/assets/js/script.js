@@ -344,12 +344,18 @@ function deleteBM(id) {
 
 // function to delete collection
 
-function deleteCollect() {
+function confirmDeleteCollect(id) {
+  $("button#confirm-delete").off();
+  $("button#confirm-delete").on("click", () => deleteCollect(id));
+  $("#confirm-delete-modal").modal("open");
+}
+
+function deleteCollect(id) {
   $.ajax({
     method: "DELETE",
-    url: "/api/collection/:id",
+    url: `/api/collections/${id}`,
   })
-    .then()
+    .then(() => location.reload())
     .fail(handleApiErr);
 }
 
@@ -419,7 +425,7 @@ $(() => {
     const id = $(this).parent().data("id");
     switch ($(this).parent().data("type")) {
       case "collection":
-        editCollection(id);
+        confirmDeleteCollect(id);
         break;
       case "bookmark":
         confirmDeleteBM(id);
