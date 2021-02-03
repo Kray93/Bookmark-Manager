@@ -1,0 +1,93 @@
+/* 
+RETRIEVE BOOKMARK(S) BY COLLECTION, TAG, AND/OR COLOR
+    route (query parameters in square brackets are optional): 
+        "/api/bookmarks[?id=<integer***>][?collection=<integer>][?tag=<integer>][?color=<color name>]"
+    method: 
+        "GET"
+    expected body parameters:
+        NONE
+    
+    *** - If the bookmark's ID is specified, then the other 3 parameters will not be used
+
+RETRIEVE UNCATEGORIZED BOOKMARKS
+    route: 
+        "/api/bookmarks/uncategorized"
+    method:
+        "GET"
+    expected body parameters: 
+        NONE
+
+CREATE A BOOKMARK
+    route:
+        "/api/bookmarks"
+    method: 
+        "POST"
+    expected body parameters (parameters in brackets are optional):
+        {
+            name: <string>,
+            url: <string, must be in URL format>,
+            [comment: <string>],
+            [color: <color (see list of color ENUMs)>],
+            [collections: <ARRAY of integers, IDs of collections to add new bookmark to>]
+        }
+
+EDIT A BOOKMARK'S NAME
+    route:
+        "/api/bookmarks/name"
+    method:
+        "PUT"
+    expected body parameters:
+        {
+            newName: <string>
+        }
+
+EDIT A BOOKMARK'S URL
+    route:
+        "/api/bookmarks/url"
+    method:
+        "PUT"
+    expected body parameters:
+        {
+            newURL: <string>
+        }
+
+EDIT A BOOKMARK'S COMMENT
+    route:
+        "/api/bookmarks/comment"
+    method:
+        "PUT"
+    expected body parameters:
+        {
+            newComment: <string>
+        }
+
+EDIT A BOOKMARK'S COLOR
+    route:
+        "/api/bookmarks/color"
+    method:
+        "PUT"
+    expected body parameters:
+        {
+            id: <ARRAY of integers, IDs to change color for. MUST BE AN ARRAY EVEN IF ONLY UPDATING ONE BOOKMARK>
+            newColor: <color: <color (see list of color ENUMs)>>
+        }
+
+MOVE BOOKMARK TO DIFFERENT COLLECTIONS
+    route:
+        "/api/bookmarks/collection"
+    method:
+        "PUT",
+    expected body parameters (parameters in brackets are optional):
+        {
+            id: <bookmark to update>,
+            newCollections: <ARRAY of integers, IDs of collections to move bookmark into>
+        }
+
+DELETE SINGLE BOOKMARK
+    route:
+        "/api/bookmarks/:id"
+    method:
+        "DELETE"
+    expected body parameters: 
+        NONE
+*/

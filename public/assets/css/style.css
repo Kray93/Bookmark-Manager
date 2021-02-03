@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+
+body {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-image: url("/assets/imgs/bookshelf_bg.webp");
+}
+
+i.fas {
+  padding: 0 2px;
+}
+
+.editForm {
+  display: none;
+}
+
+#loginDiv {
+  background-color: burlywood;
+  padding: 3vh;
+  border: inset 16px sienna;
+  margin-top: 8vh;
+}
+
+#username_input,
+#password_input {
+  margin: 0.5vh;
+  padding: 0.7vh;
+}
+
+#form {
+  margin: 1vh 0;
+}
+
+#loginTitle {
+  text-align: center;
+  font-family: "Luckiest Guy", sans-serif;
+}
+
+#tagFormDiv {
+  background-color: powderblue;
+  padding: 2vh;
+  height: 360px;
+  width: 640px;
+  margin-top: 25vh;
+  border: outset 12px steelblue;
+  border-radius: 40px;
+}
+
+#bmFormDiv {
+  background-color: mistyrose;
+  padding: 2vh;
+  height: 360px;
+  width: 640px;
+  margin-top: 25vh;
+  border: outset 12px lightcoral;
+  border-radius: 40px;
+}
+
+#collectFormDiv {
+  background-color: lightgreen;
+  padding: 2vh;
+  height: 360px;
+  width: 640px;
+  margin-top: 25vh;
+  border: outset 12px seagreen;
+  border-radius: 40px;
+}
+
+/* Media Queries Averages found Online*/
+/* Iphone */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+}
+/* Iphone Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+}
+/* Ipad Portrait */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+}
+/* Ipad Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+}
+/* Galaxy Portrait */
+@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 4) and (orientation: portrait) {
+}
+/* Galaxy Landscape */
+@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 4) and (orientation: landscape) {
+}
+/* Laptop w/ Retina Screen */
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
+}
+/* Laptop w/ Non-Retina Screen */
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
+}

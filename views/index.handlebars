@@ -1,0 +1,101 @@
+<script src="/assets/js/script.js"></script>
+{{!-- TODO: Menu, tabs, and BM's, Modals --}}
+<div style="display: inline;">
+    <div id="menu" style="z-index: -1;">
+        <h2><i class="fa fa-reorder"></i>My Bookmarks</h2>
+        <ul>
+            {{#each collections}}
+            {{> menuPartial}}
+            {{/each}}
+            {{#each bookmarks}}
+            {{> menuBookmarkPartial}}
+            {{/each}}
+            <li><a href="#" data-id="null" data-type="collection" class="add"><i class="fas fa-plus"></i>Add a
+                    folder</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col s12 m10 offset-m1 l8 offset-l2 xl6 offset-xl3">
+            <div id="tagFormDiv" class="editForm">
+                <form id="tagForm">
+                    <input type="text" name="tag">
+                    <input type="text" name="tagcolor">
+                    <input type="submit" name="tagupdate">
+                </form>
+            </div>
+
+            <div id="bmFormDiv" class="editForm">
+                <form id="bmForm">
+                    <input type="text" name="bookmark" value="{{newBookmarkName}}">
+                    <input type="text" name="bmurl" value="{{newBookmarkURL}}">
+                    <textarea name="bmcomment" id="notes"></textarea>
+                    <br>
+                    <div class="input-field col s6">
+                        <select name="bmcollections" id="options" multiple>
+                            {{#each collections}}
+                            {{> collectionPartial}}
+                            {{/each}}
+                        </select>
+                        <label for="bmcollections">Add to Collection(s)</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select name="bmcolor" id="colors">
+                            <option value="lightgray">White</option>
+                            <option value="black">Black</option>
+                            <option value="crimson">Red</option>
+                            <option value="royalblue">Blue</option>
+                            <option value="gold">Yellow</option>
+                            <option value="mediumseagreen">Green</option>
+                            <option value="orange">Orange</option>
+                            <option value="purple">Purple</option>
+                            <option value="palevioletred">Pink</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" name="bmupdate" class="btn waves-effect waves-light cyan">Submit</button>
+                </form>
+            </div>
+
+            <div id="collectFormDiv" class="editForm">
+                <form id="collectForm">
+                    <input type="text" name="collection">
+                    <div class="input-field col s6">
+                        <select name="collectioncolor" id="colors">
+                            <option value="lightgray">White</option>
+                            <option value="black">Black</option>
+                            <option value="crimson">Red</option>
+                            <option value="royalblue">Blue</option>
+                            <option value="gold">Yellow</option>
+                            <option value="mediumseagreen">Green</option>
+                            <option value="orange">Orange</option>
+                            <option value="purple">Purple</option>
+                            <option value="palevioletred">Pink</option>
+                        </select>
+                    </div>
+                    <div class="input-field col s6">
+                        <select name="collectionparent" id="options">
+                            <option value="null">No Parent</option>
+                            {{#each collections}}
+                            {{> collectionPartial}}
+                            {{/each}}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn waves-effect waves-light cyan">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="confirm-delete-modal">
+    <div class="modal-content">
+        <h3>Are you sure you want to delete that?</h3>
+    </div>
+    <div class="modal-footer">
+        <button id="confirm-delete" class="waves-effect waves-light btn red">Yes</button>
+        <button id="cancel-delete" class="modal-close btn green waves-effect waves-light">No</button>
+    </div>
+</div>
